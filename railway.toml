@@ -1,0 +1,8 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "./Pms.Services/Pms.Api/Dockerfile"
+
+[deploy]
+startCommand = "./Pms.Services/Pms.Api/Pms.Api"
+restartPolicy = "always"
+healthcheckPath = "/health"

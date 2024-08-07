@@ -1,0 +1,6 @@
+@Pms.Api_HostAddress = http://localhost:5105
+
+GET {{Pms.Api_HostAddress}}/users/
+Accept: application/json
+
+###
