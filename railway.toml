@@ -3,6 +3,6 @@ builder = "dockerfile"
 dockerfilePath = "./Pms.Services/Pms.Api/Dockerfile"
 
 [deploy]
-startCommand = "./Pms.Services/Pms.Api/Pms.Api"
+startCommand = "./Pms.Services/Pms.Api"
 restartPolicy = "always"
 healthcheckPath = "/health"
