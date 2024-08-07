@@ -34,7 +34,7 @@ if (!string.IsNullOrEmpty(host))
 
 var port = Environment.GetEnvironmentVariable("PGPORT");
 if (!string.IsNullOrEmpty(port))
-    secretsConfig.DatabaseConfig.Host = port;
+    secretsConfig.DatabaseConfig.Port = port;
 
 var password = Environment.GetEnvironmentVariable("PGPASSWORD");
 if (!string.IsNullOrEmpty(password))
