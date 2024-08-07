@@ -3,6 +3,7 @@ using Pms.Core.Abstraction;
 using Pms.Core.Api;
 using Pms.Core.ApiConfig;
 using Pms.Core.Config;
+using Pms.Core.Config.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,11 +17,32 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 
 var secretsConfig = builder.Configuration.GetSection("MicroServiceConfig")
     .Get<MicroServiceConfig>(c => c.BindNonPublicProperties = true);
-if (secretsConfig == null)
-{
-    throw new Exception("MicroServiceConfig is not configured correctly");
-}
 
+secretsConfig ??= new MicroServiceConfig();
+secretsConfig.DatabaseConfig ??= new DatabaseConfig
+{
+    Host = Environment.GetEnvironmentVariable("PGHOST"),
+    Port = Environment.GetEnvironmentVariable("PGPORT"),
+    Password = Environment.GetEnvironmentVariable("PGPASSWORD"),
+    User = Environment.GetEnvironmentVariable("POSTGRES_USER"),
+    DatabaseName = "itsquarehub-pms"
+};
+
+var host = Environment.GetEnvironmentVariable("PGHOST");
+if (!string.IsNullOrEmpty(host))
+    secretsConfig.DatabaseConfig.Host = host;
+
+var port = Environment.GetEnvironmentVariable("PGPORT");
+if (!string.IsNullOrEmpty(port))
+    secretsConfig.DatabaseConfig.Host = port;
+
+var password = Environment.GetEnvironmentVariable("PGPASSWORD");
+if (!string.IsNullOrEmpty(password))
+    secretsConfig.DatabaseConfig.Password = password;
+
+var user = Environment.GetEnvironmentVariable("POSTGRES_USER");
+if (!string.IsNullOrEmpty(user))
+    secretsConfig.DatabaseConfig.User = user;
 
 builder.Services.AddSingleton<IMicroServiceConfig, MicroServiceConfig>(service => secretsConfig);
 builder.Services.AddAutoMapper(typeof(Program));

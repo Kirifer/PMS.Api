@@ -10,7 +10,7 @@ using Pms.DataLayer;
 
 namespace Pms.Api.Configurations
 {
-    public static class DatabaseConfig
+    public static class PmsDatabaseConfig
     {
         public static IServiceCollection AddPmsDatabase(this IServiceCollection services, IMicroServiceConfig envConfig)
         {
