@@ -19,4 +19,4 @@ RUN dotnet publish "./Pms.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Pms.Api.dll"]
+ENTRYPOINT ["dotnet", "./Pms.Services/Pms.Api/Pms.Api.dll"]
