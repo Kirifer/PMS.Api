@@ -24,6 +24,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		railway.toml = railway.toml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{FE092F71-0C1D-48D2-AFA8-132177AAD2E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pms.ITSquarehub.Authentication", "Pms.Integrations\Pms.ITSquarehub.Authentication\Pms.ITSquarehub.Authentication.csproj", "{5422560C-BBF3-4EC1-BF02-5B98C60CB630}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +58,10 @@ Global
 		{BB74C010-3441-49A8-8B32-D97D299EF758}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB74C010-3441-49A8-8B32-D97D299EF758}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB74C010-3441-49A8-8B32-D97D299EF758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5422560C-BBF3-4EC1-BF02-5B98C60CB630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5422560C-BBF3-4EC1-BF02-5B98C60CB630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5422560C-BBF3-4EC1-BF02-5B98C60CB630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5422560C-BBF3-4EC1-BF02-5B98C60CB630}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +73,7 @@ Global
 		{33273F21-F097-4FDE-A8C4-4C1F55FAFDE3} = {A3BC1456-BB06-4984-81CC-566B964072F6}
 		{FAFA61C4-DF01-4F05-A86B-9A71C70BF17B} = {242246C3-3C03-466B-9CB7-D25D518215D3}
 		{BB74C010-3441-49A8-8B32-D97D299EF758} = {242246C3-3C03-466B-9CB7-D25D518215D3}
+		{5422560C-BBF3-4EC1-BF02-5B98C60CB630} = {FE092F71-0C1D-48D2-AFA8-132177AAD2E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C071B9F9-F047-41B6-8307-244A8261FB0A}

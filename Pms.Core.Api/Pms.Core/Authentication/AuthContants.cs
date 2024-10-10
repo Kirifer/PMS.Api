@@ -26,5 +26,6 @@
         public const string AuthId = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/authenticationidentifier";
         public const string Email = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
         public const string Role = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+        public const string FullName = "http://schemas.microsoft.com/ws/2008/06/identity/claims/fullname";
     }
 }

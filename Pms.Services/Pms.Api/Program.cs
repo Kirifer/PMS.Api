@@ -1,9 +1,17 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.Text;
+
 using Pms.Api.Configurations;
 using Pms.Core.Abstraction;
 using Pms.Core.Api;
 using Pms.Core.ApiConfig;
+using Pms.Core.Authentication;
 using Pms.Core.Config;
 using Pms.Core.Config.Database;
+using Pms.Shared.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,8 +63,50 @@ builder.Services.AddPmsDatabase(secretsConfig);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc(GlobalConstant.DocumentVersion, new OpenApiInfo
+    {
+        Version = GlobalConstant.DocumentVersion,
+        Title = GlobalConstant.DocumentTitle,
+        Description = GlobalConstant.DocumentDescription
+    });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        options.IncludeXmlComments(xmlPath);
+    }
+});
+
+// Authentication Setup
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserContext, UserContext>();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        RequireSignedTokens = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretsConfig.JwtConfig!.Key)),
+
+        ValidateLifetime = true,
+        RequireExpirationTime = true,
+
+        ValidateIssuer = true,
+        ValidIssuer = secretsConfig.JwtConfig.Issuer,
+
+        ValidateAudience = true,
+        ValidAudience = secretsConfig.JwtConfig.Audience,
+    };
+});
 builder.Services.AddHealthChecks();
+
 
 var app = builder.Build();
 
@@ -78,6 +128,11 @@ app.UseAtsDatabase();
 app.UseAuthorization();
 app.UseRouting();
 app.MapControllers();
+
+// for authentication
+app.UseMiddleware<HttpOnlyMiddleware>(secretsConfig.JwtConfig!.CookieName);
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseHealthChecks("/health");
 

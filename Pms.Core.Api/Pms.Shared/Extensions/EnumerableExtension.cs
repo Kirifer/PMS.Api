@@ -8,7 +8,7 @@
         /// <param name="enumerable">Enumerable item list to be checked</param>
         public static bool IsNullOrEmpty<TEntity>(
             this IEnumerable<TEntity> enumerable,
-            Func<TEntity, bool> predicate = null)
+            Func<TEntity, bool>? predicate = null)
         {
             return Equals(enumerable, null) || !(Equals(predicate, null) ?
                 enumerable.Any() :
