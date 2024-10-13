@@ -1,6 +1,7 @@
 ﻿using Pms.Core.Authentication;
 using Pms.Core.Config;
 using Pms.Core.Database;
+using Pms.Core.Database.Abstraction;
 using Pms.Core.Database.Abstraction.Interface;
 using Pms.Core.Extensions;
 using Pms.Datalayer;
@@ -43,9 +44,9 @@ namespace Pms.Api.Configurations
             services.AddScoped<IUserRepository, UserRepository>();
 
 
-            //services.RegisterAssemblies<IDbQuerySingle>("Pms.DataLayer", DependencyLifetime.Transient);
-            //services.RegisterAssemblies<IDbQuery>("Pms.DataLayer", DependencyLifetime.Transient);
-            //services.RegisterAssemblies<IDbCommand>("Pms.DataLayer", DependencyLifetime.Transient);
+            services.RegisterAssemblies<IDbQuerySingle>("Pms.DataLayer", DependencyLifetime.Transient);
+            services.RegisterAssemblies<IDbQuery>("Pms.DataLayer", DependencyLifetime.Transient);
+            services.RegisterAssemblies<IDbCommand>("Pms.DataLayer", DependencyLifetime.Transient);
 
             return services;
         }

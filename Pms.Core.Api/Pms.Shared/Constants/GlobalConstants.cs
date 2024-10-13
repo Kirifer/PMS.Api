@@ -13,5 +13,13 @@
         public const string DocumentAuthor = "ITSquarehub";
 
         public const string HttpSchemeBearer = "Bearer";
+
+        #region DB Search Setup
+        public const int DefaultPageIndex = 1;
+
+        public const int DefaultPageSize = 25;
+
+        public const int MaximumPageSize = 1000;
+        #endregion
     }
 }

@@ -1,15 +1,20 @@
-﻿using Pms.Core.Database;
+﻿using Microsoft.EntityFrameworkCore;
+
+using Pms.Core.Database;
 using Pms.Core.Database.Abstraction;
 using Pms.Core.Database.Abstraction.Interface;
 using Pms.Datalayer.Entities;
-
-using Microsoft.EntityFrameworkCore;
 
 namespace Pms.Datalayer
 {
     public class PmsDbContext : DbContextBase
     {
         public DbSet<User> Users { get; set; }
+
+        public DbSet<PmsCompetency> Competencies { get; set; }
+        public DbSet<PerformanceReview> PerformanceReviews { get; set; }
+        public DbSet<PerformanceReviewCompetency> PerformanceReviewCompetencies { get; set; }
+        public DbSet<PerformanceReviewGoal> PerformanceReviewGoals { get; set; }
 
         public PmsDbContext(DbContextOptions<DbContextBase> options)
            : base(options)

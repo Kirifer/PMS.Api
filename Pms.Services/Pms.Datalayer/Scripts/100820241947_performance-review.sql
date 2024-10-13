@@ -10,10 +10,11 @@ begin
     end_date date,
     employee_id uuid,
     supervisor_id uuid,
-    last_name text not null,
-    email text not null,
-    postion text not null,
     is_active bool not null,
+    created_on timestamp with time zone not null,
+    creator_id uuid,
+    updated_on timestamp with time zone,
+    updater_id uuid,
     is_deleted bool not null,
 
     constraint pk_performance_reviews primary key (id)
@@ -54,11 +55,10 @@ begin
   -- Create performance_review_competencies table
   create table if not exists public.performance_review_competencies (
     id uuid not null,
+    order_no int not null,
     performance_review_id uuid not null,
     competency_level_id uuid,
     weight decimal,
-    order_no int not null,
-    goals text not null,
 
     constraint pk_performance_review_competencies primary key (id),
     constraint fk_performance_review_competencies_performance_review_id foreign key (performance_review_id)

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Pms.Core.Api\Pms.Core\Pms.Core.csproj" />
     <ProjectReference Include="..\..\Pms.Core.Api\Pms.Shared\Pms.Shared.csproj" />
   </ItemGroup>
 

@@ -2,6 +2,6 @@
 {
     public interface IDbContext
     {
-        //IDbUserContext UserContext { get; }
+        IDbUserContext UserContext { get; }
     }
 }

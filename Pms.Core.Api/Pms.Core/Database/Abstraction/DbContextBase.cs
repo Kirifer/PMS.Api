@@ -106,6 +106,8 @@ namespace Pms.Core.Database.Abstraction
             if (Equals(dbConfigType, null)) return;
 
             var dbEntity = entity as IDbEntity;
+            if (Equals(dbEntity, null)) return;
+
             if (entityState == EntityState.Added)
             {
                 dbEntity.CreatorId = UserContext.UserId;

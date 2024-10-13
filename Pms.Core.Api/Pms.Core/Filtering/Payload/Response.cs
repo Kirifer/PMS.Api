@@ -14,12 +14,13 @@ namespace Pms.Core.Filtering
 
         public HttpStatusCode Code { get; set; }
 
-        public bool Succeeded => Errors == null || !Errors.Any();
+        public bool Succeeded => Errors == null || Errors.Count != 0;
 
         public static Response<TData> Success(TData result, int? totalCount = null)
         {
-            int? recordCount = typeof(TData).IsArray ?
-                (result as List<TData>)!.Count : null;
+            int? recordCount = result == null ? null :
+                typeof(TData).IsArray ?
+                (result as List<TData>)?.Count : null;
 
             return new Response<TData>()
             {
@@ -27,16 +28,6 @@ namespace Pms.Core.Filtering
                 Data = result,
                 TotalCount = totalCount ?? recordCount,
                 Errors = null
-            };
-        }
-
-        public static Response<TData> Error(HttpStatusCode code, ErrorCode errorCode, string message)
-        {
-            return new Response<TData>()
-            {
-                Code = code,
-                Data = default,
-                Errors = [new ErrorDto(errorCode, message)]
             };
         }
 
@@ -65,7 +56,7 @@ namespace Pms.Core.Filtering
             if (ex.GetType() == typeof(RequestException))
             {
                 var requestEx = ex as RequestException;
-                var errors = requestEx!.Messages?
+                var errors = requestEx?.Messages?
                     .Select(errorMessage => new ErrorDto(requestEx.Code, errorMessage))
                     .ToArray();
 
@@ -79,7 +70,7 @@ namespace Pms.Core.Filtering
             else if (ex.GetType() == typeof(DatabaseAccessException))
             {
                 var requestEx = ex as DatabaseAccessException;
-                var errors = requestEx!.ErrorMessages?
+                var errors = requestEx?.ErrorMessages?
                     .Select(errorMessage => new ErrorDto(ErrorCode.DatabaseError, errorMessage))
                     .ToArray();
 
@@ -93,7 +84,7 @@ namespace Pms.Core.Filtering
             else if (ex.GetType() == typeof(UnprocessableException))
             {
                 var requestEx = ex as UnprocessableException;
-                var errors = requestEx!.Messages?
+                var errors = requestEx?.Messages?
                     .Select(errorMessage => new ErrorDto(requestEx.Code, errorMessage))
                     .ToArray();
 

@@ -1,9 +1,13 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Text;
 using System.Text.RegularExpressions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Pms.Core.Extensions;
+
+using Pms.Core.Filtering;
 
 namespace Pms.Core.Database
 {
@@ -90,6 +94,74 @@ namespace Pms.Core.Database
                 .Where(item => item.GetTypes().Any(itemType => itemType.GetInterface(typeof(IEntityTypeConfiguration<>).Name) != null && itemType.IsClass))
                 .FirstOrDefault();
             modelBuilder.ApplyConfigurationsFromAssembly(targetAssembly!);
+        }
+
+        /// <summary>
+        /// Applies the paging on the query
+        /// </summary>
+        /// <typeparam name="TEntity">Entity type</typeparam>
+        /// <param name="query">Existing Query Parameters</param>
+        /// <param name="paging">Paging to be applied</param>
+        /// <returns>Paged data records</returns>
+        public static IQueryable<TEntity> ApplyPaging<TEntity>(this IQueryable<TEntity> query, IPaging paging)
+        {
+            if (Equals(paging, null)) return query;
+
+            return paging.Page < 1 ?
+                query.AsQueryable() :
+                query.Skip((paging.Page - 1) * paging.PageSize).Take(paging.PageSize);
+        }
+
+        /// <summary>
+        /// Applies the sorting for the query
+        /// </summary>
+        /// <typeparam name="TEntity">Entity type</typeparam>
+        /// <param name="query">Existing Query Parameters</param>
+        /// <param name="sorting">Sorting reference to be applied</param>
+        /// <returns>Sorted data records</returns>
+        public static IQueryable<TEntity> ApplySorting<TEntity>(this IQueryable<TEntity> query, ISorting sorting)
+        {
+            if (Equals(sorting, null)) return query;
+
+            var propertyInfo = TypeDescriptor.GetProperties(typeof(TEntity)).Find(sorting.SortBy.ToPascalCase(), true);
+            if (propertyInfo == null)
+            {
+                return query;
+            }
+
+            var sortDirection = string.IsNullOrWhiteSpace(sorting.Direction) ?
+                "asc" : sorting.Direction.ToString().ToLowerInvariant();
+            if (sortDirection == "asc" || sortDirection == "ascending")
+            {
+                return query.OrderBy(propertyInfo.Name);
+            }
+            else if (sortDirection == "desc" || sortDirection == "descending")
+            {
+                return query.OrderByDescending(propertyInfo.Name);
+            }
+            return query;
+        }
+
+        /// <summary>
+        /// Applies the dynamic filtering on the query
+        /// </summary>
+        /// <typeparam name="TEntity">Entity type</typeparam>
+        /// <param name="query">Existing Query Parameters</param>
+        /// <param name="keyword">Filter query</param>
+        /// <returns>Filtered data records</returns>
+        public static IQueryable<TEntity> ApplyFiltering<TEntity>(this IQueryable<TEntity> query, string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword)) return query;
+
+            var entityType = typeof(TEntity);
+            var filteredProperties = entityType.GetProperties()
+                .Where(property => property.PropertyType == typeof(string))
+                .Select(item => (keyword, item))
+                .ToArray();
+
+            return query
+                .WherePropertyLike(filteredProperties)
+                .AsQueryable();
         }
     }
 }
