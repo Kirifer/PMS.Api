@@ -35,7 +35,7 @@ namespace Pms.Core.Database.Abstraction
         protected IDbContext DbContext { get; } = dbContext;
         protected IDbUserContext UserContext { get; private set; } = dbContext.UserContext;
 
-        protected TCriteria? _criteria;
+        protected TCriteria _criteria;
 
         private int _total;
 

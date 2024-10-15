@@ -8,9 +8,9 @@ namespace Pms.Datalayer.Entities
         public virtual PerformanceReview? PerformanceReview { get; set; }
         public int OrderNo { get; set; } = 0;
 
-        public string Goals { get; set; } = string.Empty;
-        public decimal Weight { get; set; } = 0M;
-        public string Date { get; set; } = string.Empty;
+        public string? Goals { get; set; } = string.Empty;
+        public decimal? Weight { get; set; } = 0M;
+        public string? Date { get; set; } = string.Empty;
         public string? Measure4 { get; set; } = string.Empty;
         public string? Measure3 { get; set; } = string.Empty;
         public string? Measure2 { get; set; } = string.Empty;

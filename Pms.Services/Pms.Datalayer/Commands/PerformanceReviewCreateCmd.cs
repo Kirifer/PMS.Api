@@ -27,6 +27,23 @@ namespace Pms.Datalayer.Commands
                 EndDate = _cmd.EndDate,
                 EmployeeId = _cmd.EmployeeId,
                 SupervisorId = _cmd.SupervisorId,
+                Goals = _cmd.Goals.Select(g => new PerformanceReviewGoal
+                {
+                    Goals = g.Goals,
+                    OrderNo = g.OrderNo,
+                    Weight = g.Weight,
+                    Date = g.Date,
+                    Measure1 = g.Measure1,
+                    Measure2 = g.Measure2,
+                    Measure3 = g.Measure3,
+                    Measure4 = g.Measure4,
+                }).ToList(),
+                Competencies = _cmd.Competencies.Select(c => new PerformanceReviewCompetency
+                {
+                    CompetencyId = c.CompetencyId,
+                    OrderNo = c.OrderNo,
+                    Weight = c.Weight,
+                }).ToList()
             };
 
             await DbContext.AddAsync(_createRef);
@@ -58,5 +75,28 @@ namespace Pms.Datalayer.Commands
         public DateTime? EndDate { get; set; }
         public Guid? EmployeeId { get; set; }
         public Guid? SupervisorId { get; set; }
+
+        public List<PerformanceReviewGoalCreateCmdModel> Goals { get; set; } = new();
+        public List<PerformanceReviewCompetencyCreateCmdModel> Competencies { get; set; } = new();
+    }
+
+    public class PerformanceReviewGoalCreateCmdModel
+    {
+        public int OrderNo { get; set; }
+
+        public string? Goals { get; set; }
+        public decimal Weight { get; set; }
+        public string? Date { get; set; }
+        public string? Measure4 { get; set; }
+        public string? Measure3 { get; set; }
+        public string? Measure2 { get; set; }
+        public string? Measure1 { get; set; }
+    }
+
+    public class PerformanceReviewCompetencyCreateCmdModel
+    {
+        public Guid CompetencyId { get; set; }
+        public int OrderNo { get; set; } = 0;
+        public decimal? Weight { get; set; } = 0M;
     }
 }

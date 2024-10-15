@@ -13,5 +13,8 @@ namespace Pms.Datalayer.Entities
         public Guid? SupervisorId { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsDeleted { get; set; } = false;
+
+        public virtual List<PerformanceReviewGoal> Goals { get; set; } = [];
+        public virtual List<PerformanceReviewCompetency> Competencies { get; set; } = [];
     }
 }
