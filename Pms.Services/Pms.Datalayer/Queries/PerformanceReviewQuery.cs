@@ -45,7 +45,7 @@ namespace Pms.Datalayer.Queries
                         Id = c.Id,
                         Competency = new PmsCompetencyDto
                         {
-                            Id = c.CompetencyId,
+                            Id = c.CompetencyLevelId,
                             Competency = c.Competency != null ? c.Competency.Competency : string.Empty,
                             Level = c.Competency != null ? c.Competency.Level : string.Empty,
                             Description = c.Competency != null ? c.Competency.Description : string.Empty,

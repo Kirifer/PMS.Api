@@ -16,6 +16,14 @@ namespace Pms.Api.Mappings
             CreateMap<PmsPerformanceReviewCreateDto, PerformanceReviewCreateCmdModel>(MemberList.Destination);
             CreateMap<PmsPerformanceReviewUpdateDto, PerformanceReviewUpdateCmdModel>(MemberList.Destination);
 
+            CreateMap<PerformanceReviewGoal, PmsPerformanceReviewGoalDto>(MemberList.Destination);
+            CreateMap<PmsPerformanceReviewGoalCreateDto, PerformanceReviewGoalCreateCmdModel>(MemberList.Destination);
+            CreateMap<PmsPerformanceReviewGoalUpdateDto, PerformanceReviewGoalUpdateCmdModel>(MemberList.Destination);
+
+            CreateMap<PerformanceReviewCompetency, PmsPerformanceReviewCompetencyDto>(MemberList.Destination);
+            CreateMap<PmsPerformanceReviewCompetencyCreateDto, PerformanceReviewCompetencyCreateCmdModel>(MemberList.Destination);
+            CreateMap<PmsPerformanceReviewCompetencyUpdateDto, PerformanceReviewCompetencyUpdateCmdModel>(MemberList.Destination);
+
             CreateMap<PmsCompetencyFilterDto, CompetencyQueryFilter>(MemberList.Destination);
             CreateMap<PmsCompetency, PmsCompetencyDto>(MemberList.Destination);
         }

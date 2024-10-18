@@ -40,7 +40,7 @@ namespace Pms.Datalayer.Commands
                 }).ToList(),
                 Competencies = _cmd.Competencies.Select(c => new PerformanceReviewCompetency
                 {
-                    CompetencyId = c.CompetencyId,
+                    CompetencyLevelId = c.CompetencyId,
                     OrderNo = c.OrderNo,
                     Weight = c.Weight,
                 }).ToList()

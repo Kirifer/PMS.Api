@@ -15,7 +15,9 @@ namespace Pms.Domain.Services
     public class PerformanceReviewService(IMapper mapper, ILogger<PerformanceReviewService> logger,
 
         IPerformanceReviewQuery performanceReviewQuery,
-        IPerformanceReviewCreateCmd performanceReviewCreateCmd)
+        IPerformanceReviewCreateCmd performanceReviewCreateCmd,
+        IPerformanceReviewUpdateCmd performanceReviewUpdateCmd,
+        IPerformanceReviewDeleteCmd performanceReviewDeleteCmd)
         : EntityService(mapper, logger), IPerformanceReviewService
     {
         public async Task<Response<List<PmsPerformanceReviewDto>>> GetPerformanceReviewsAsync(PmsPerformanceReviewFilterDto filter)
@@ -54,24 +56,59 @@ namespace Pms.Domain.Services
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error occurred while fetching competencies");
+                Logger.LogError(ex, "Error occurred while fetching competencies.");
                 return Response<PmsPerformanceReviewDto>.Exception(ex);
             }
         }
 
         public async Task<Response<IdDto>> CreatePerformanceReviewAsync(PmsPerformanceReviewCreateDto payload)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var cmdModel = Mapper.Map<PerformanceReviewCreateCmdModel>(payload);
+                await performanceReviewCreateCmd.ExecuteAsync(cmdModel);
+                var result = performanceReviewCreateCmd.GetResult();
+
+                return Response<IdDto>.Success(result);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error occurred while creating competencies.");
+                return Response<IdDto>.Exception(ex);
+            }
         }
 
         public async Task<Response<IdDto>> UpdatePerformanceReviewAsync(Guid id, PmsPerformanceReviewUpdateDto payload)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var cmdModel = Mapper.Map<PerformanceReviewUpdateCmdModel>(payload);
+                await performanceReviewUpdateCmd.ExecuteAsync(cmdModel);
+                var result = performanceReviewUpdateCmd.GetResult();
+
+                return Response<IdDto>.Success(result);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error occurred while updating competencies.");
+                return Response<IdDto>.Exception(ex);
+            }
         }
 
         public async Task<Response<IdDto>> DeletePerformanceReviewAsync(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await performanceReviewDeleteCmd.ExecuteAsync(new PerformanceReviewDeleteCmdModel { PerformanceReviewId = id});
+                var result = performanceReviewDeleteCmd.GetResult();
+
+                return Response<IdDto>.Success(result);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error occurred while creating competencies");
+                return Response<IdDto>.Exception(ex);
+            }
         }
 
     }

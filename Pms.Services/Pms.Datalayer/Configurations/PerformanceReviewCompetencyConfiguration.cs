@@ -12,7 +12,7 @@ namespace Pms.DataLayer.Configurations
             builder
                 .HasOne(pr => pr.Competency)
                 .WithOne()
-                .HasPrincipalKey<PerformanceReviewCompetency>(pr => pr.CompetencyId)
+                .HasPrincipalKey<PerformanceReviewCompetency>(pr => pr.CompetencyLevelId)
                 .HasForeignKey<PmsCompetency>(c => c.Id)
                 .OnDelete(DeleteBehavior.NoAction);
         }
