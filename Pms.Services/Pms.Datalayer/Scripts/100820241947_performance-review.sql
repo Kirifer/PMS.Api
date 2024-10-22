@@ -4,6 +4,7 @@ begin
   create table if not exists public.performance_reviews (
     id uuid not null,
     name text not null,
+    department_type int not null,
     start_year date,
     end_year date,
     start_date date,
@@ -62,7 +63,7 @@ begin
 
     constraint pk_performance_review_competencies primary key (id),
     constraint fk_performance_review_competencies_performance_review_id foreign key (performance_review_id)
-      references public.performance_review_competencies (id) match simple
+      references public.performance_reviews (id) match simple
       on update no action
       on delete cascade
   );

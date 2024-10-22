@@ -1,6 +1,7 @@
 ﻿using Pms.Core.Database.Abstraction;
 using Pms.Core.Filtering;
 using Pms.Datalayer.Entities;
+using Pms.Models.Enums;
 using Pms.Shared.Enums;
 using Pms.Shared.Exceptions;
 
@@ -21,6 +22,7 @@ namespace Pms.Datalayer.Commands
             _createRef = new PerformanceReview()
             {
                 Name = _cmd.Name,
+                DepartmentType = _cmd.DepartmentType,
                 StartYear = _cmd.StartYear,
                 EndYear = _cmd.EndYear,
                 StartDate = _cmd.StartDate,
@@ -62,6 +64,13 @@ namespace Pms.Datalayer.Commands
                 throw new DatabaseAccessException(
                     DbErrorCode.ValidationFailed, $"Performance Review with name {_cmd.Name} already exists.");
 
+            foreach(var competency in _cmd.Competencies)
+            {
+                var checkCompetency = context!.Competencies.FirstOrDefault(c => c.Id == competency.CompetencyId)
+                    ?? throw new DatabaseAccessException(DbErrorCode.ValidationFailed,
+                    $"Related comptentcy id {competency.CompetencyId} is not found on comptencies.");
+            }
+
             return _createRef == null;
         }
     }
@@ -69,10 +78,11 @@ namespace Pms.Datalayer.Commands
     public class PerformanceReviewCreateCmdModel
     {
         public string Name { get; set; } = string.Empty;
+        public DepartmentType DepartmentType { get; set; }
         public DateOnly? StartYear { get; set; }
         public DateOnly? EndYear { get; set; }
         public DateOnly? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateOnly? EndDate { get; set; }
         public Guid? EmployeeId { get; set; }
         public Guid? SupervisorId { get; set; }
 

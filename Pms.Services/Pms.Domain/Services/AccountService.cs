@@ -1,18 +1,7 @@
 ﻿
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
-
-using Pms.Core.Abstraction;
-using Pms.Core.Authentication;
-using Pms.Core.Config;
-using Pms.Core.Filtering;
-using Pms.Datalayer.Entities;
-using Pms.Datalayer.Interface;
-using Pms.Domain.Services.Interface;
-using Pms.Shared;
-using Pms.Shared.Enums;
 
 using AutoMapper;
 
@@ -26,7 +15,6 @@ using Pms.Core.Filtering;
 using Pms.Datalayer.Entities;
 using Pms.Datalayer.Interface;
 using Pms.Domain.Services.Interface;
-using Pms.Shared.Enums;
 using Pms.Shared;
 
 namespace Pms.Domain.Services

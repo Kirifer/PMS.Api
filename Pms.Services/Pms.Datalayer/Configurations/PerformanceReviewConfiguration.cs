@@ -11,13 +11,15 @@ namespace Pms.DataLayer.Configurations
         {
             builder
                 .HasMany(pr => pr.Goals)
-                .WithOne()
+                .WithOne(g => g.PerformanceReview)
+                .HasPrincipalKey(pr => pr.Id)
                 .HasForeignKey(g => g.PerformanceReviewId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasMany(pr => pr.Competencies)
-                .WithOne()
+                .WithOne(c => c.PerformanceReview)
+                .HasPrincipalKey(pr => pr.Id)
                 .HasForeignKey(c => c.PerformanceReviewId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

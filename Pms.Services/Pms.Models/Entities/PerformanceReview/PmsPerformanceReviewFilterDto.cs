@@ -8,6 +8,6 @@ namespace Pms.Models
         public DateOnly? StartYear { get; set; }
         public DateOnly? EndYear { get; set; }
         public DateOnly? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateOnly? EndDate { get; set; }
     }
 }

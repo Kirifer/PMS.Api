@@ -1,13 +1,19 @@
-﻿namespace Pms.Models
+﻿using Pms.Models.Enums;
+
+namespace Pms.Models
 {
     public class PmsPerformanceReviewUpdateDto
     {
         public Guid Id { get; set; }
 
-        public string Competency { get; set; } = string.Empty;
-        public string Level { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public bool? IsActive { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public DepartmentType DepartmentType { get; set; }
+        public int? StartYear { get; set; }
+        public int? EndYear { get; set; }
+        public DateOnly? StartDate { get; set; }
+        public DateOnly? EndDate { get; set; }
+        public Guid? EmployeeId { get; set; }
+        public Guid? SupervisorId { get; set; }
 
         public List<PmsPerformanceReviewGoalUpdateDto>? Goals { get; set; }
 

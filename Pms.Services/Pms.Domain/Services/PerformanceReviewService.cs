@@ -83,6 +83,7 @@ namespace Pms.Domain.Services
             try
             {
                 var cmdModel = Mapper.Map<PerformanceReviewUpdateCmdModel>(payload);
+                cmdModel.Id = id;
                 await performanceReviewUpdateCmd.ExecuteAsync(cmdModel);
                 var result = performanceReviewUpdateCmd.GetResult();
 

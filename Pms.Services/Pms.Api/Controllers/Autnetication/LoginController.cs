@@ -1,16 +1,13 @@
 ﻿using System.Net;
 
+using Microsoft.AspNetCore.Mvc;
+
 using Pms.Core.Config;
 using Pms.Core.Extensions;
 using Pms.Core.Filtering;
 using Pms.Domain.Services.Interface;
 using Pms.Shared;
 using Pms.Shared.Extensions;
-
-using Microsoft.AspNetCore.Mvc;
-
-using Pms.Core.Config;
-using Pms.Core.Filtering;
 
 namespace Pms.Api.Controllers
 {

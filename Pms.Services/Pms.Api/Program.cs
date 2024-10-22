@@ -29,10 +29,10 @@ var secretsConfig = builder.Configuration.GetSection("MicroServiceConfig")
 secretsConfig ??= new MicroServiceConfig();
 secretsConfig.DatabaseConfig ??= new DatabaseConfig
 {
-    Host = Environment.GetEnvironmentVariable("PGHOST"),
-    Port = Environment.GetEnvironmentVariable("PGPORT"),
-    Password = Environment.GetEnvironmentVariable("PGPASSWORD"),
-    User = Environment.GetEnvironmentVariable("POSTGRES_USER"),
+    Host = Environment.GetEnvironmentVariable("PGHOST") ?? string.Empty,
+    Port = Environment.GetEnvironmentVariable("PGPORT") ?? string.Empty,
+    Password = Environment.GetEnvironmentVariable("PGPASSWORD") ?? string.Empty,
+    User = Environment.GetEnvironmentVariable("POSTGRES_USER") ?? string.Empty,
     DatabaseName = "itsquarehub-pms"
 };
 

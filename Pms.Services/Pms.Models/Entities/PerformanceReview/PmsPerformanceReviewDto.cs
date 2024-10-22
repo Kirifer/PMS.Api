@@ -1,14 +1,16 @@
-﻿using Pms.Shared.Models;
+﻿using Pms.Models.Enums;
+using Pms.Shared.Models;
 
 namespace Pms.Models
 {
     public class PmsPerformanceReviewDto : EntityBaseDto
     {
         public string Name { get; set; } = string.Empty;
-        public DateOnly? StartYear { get; set; }
-        public DateOnly? EndYear { get; set; }
+        public DepartmentType DepartmentType { get; set; }
+        public int? StartYear { get; set; }
+        public int? EndYear { get; set; }
         public DateOnly? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateOnly? EndDate { get; set; }
         public Guid? EmployeeId { get; set; }
         public Guid? SupervisorId { get; set; }
         public bool? IsActive { get; set; }

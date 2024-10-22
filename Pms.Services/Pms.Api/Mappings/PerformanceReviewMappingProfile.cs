@@ -4,6 +4,7 @@ using Pms.Datalayer.Commands;
 using Pms.Datalayer.Entities;
 using Pms.Datalayer.Queries;
 using Pms.Models;
+using Pms.Shared.Extensions;
 
 namespace Pms.Api.Mappings
 {
@@ -13,8 +14,17 @@ namespace Pms.Api.Mappings
         {
             CreateMap<PmsPerformanceReviewFilterDto, PerformanceReviewQueryFilter>(MemberList.Destination);
             CreateMap<PerformanceReview, PmsPerformanceReviewDto>(MemberList.Destination);
-            CreateMap<PmsPerformanceReviewCreateDto, PerformanceReviewCreateCmdModel>(MemberList.Destination);
-            CreateMap<PmsPerformanceReviewUpdateDto, PerformanceReviewUpdateCmdModel>(MemberList.Destination);
+            CreateMap<PmsPerformanceReviewCreateDto, PerformanceReviewCreateCmdModel>(MemberList.Destination)
+                .ForMember(dest => dest.StartYear,
+                    opt => opt.MapFrom(src => DateOnlyUtility.ConvertNumberYearToDateOnly(src.StartYear ?? DateTime.Now.Year, 1, 1)))
+                .ForMember(dest => dest.EndYear,
+                    opt => opt.MapFrom(src => DateOnlyUtility.ConvertNumberYearToDateOnly(src.EndYear ?? DateTime.Now.Year, 1, 1)));
+
+            CreateMap<PmsPerformanceReviewUpdateDto, PerformanceReviewUpdateCmdModel>(MemberList.Destination)
+                .ForMember(dest => dest.StartYear,
+                    opt => opt.MapFrom(src => DateOnlyUtility.ConvertNumberYearToDateOnly(src.StartYear ?? DateTime.Now.Year, 1, 1)))
+                .ForMember(dest => dest.EndYear,
+                    opt => opt.MapFrom(src => DateOnlyUtility.ConvertNumberYearToDateOnly(src.EndYear ?? DateTime.Now.Year, 1, 1)));
 
             CreateMap<PerformanceReviewGoal, PmsPerformanceReviewGoalDto>(MemberList.Destination);
             CreateMap<PmsPerformanceReviewGoalCreateDto, PerformanceReviewGoalCreateCmdModel>(MemberList.Destination);

@@ -31,7 +31,7 @@ namespace Pms.Api.Configurations
             services.AddTransient<IDbUserContext>(provider =>
             {
                 var userContext = provider.GetService<IUserContext>();
-                return new DbUserContext(userContext);
+                return new DbUserContext(userContext!);
             });
             services.AddTransient(provider =>
             {
