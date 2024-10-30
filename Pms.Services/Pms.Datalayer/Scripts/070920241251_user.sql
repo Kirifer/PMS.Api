@@ -7,7 +7,8 @@ begin
     last_name text not null,
     email text not null,
     postion text,
-    is_supervisor boolean,
+    is_supervisor boolean not null,
+    is_active boolean not null,
    
     constraint pk_users primary key (id),
     constraint un_users_email unique(email)

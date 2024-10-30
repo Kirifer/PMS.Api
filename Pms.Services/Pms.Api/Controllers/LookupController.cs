@@ -25,8 +25,29 @@ namespace Pms.Api.Controllers
         [Route("lookup/competencies")]
         //[AuthorizePermission(AuthPermissions.PmsPerformanceReviewView)]
         [ProducesResponseType(typeof(Response<List<PmsCompetencyDto>>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetUsersAsync([FromQuery]PmsCompetencyFilterDto filter)
+        public async Task<IActionResult> GetCompetenciesAsync([FromQuery]PmsCompetencyFilterDto filter)
             => ApiResponse(await lookupService.GetCompetenciesAsync(filter));
 
+        /// <summary>
+        /// Gets the users
+        /// </summary>
+        /// <returns>The list of users.</returns>
+        [HttpGet]
+        [Route("lookup/users")]
+        //[AuthorizePermission(AuthPermissions.PmsPerformanceReviewView)]
+        [ProducesResponseType(typeof(Response<List<PmsCompetencyDto>>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetUsersAsync()
+            => ApiResponse(await lookupService.GetUsersAsync());
+
+        /// <summary>
+        /// Gets the supervivors
+        /// </summary>
+        /// <returns>The list of users.</returns>
+        [HttpGet]
+        [Route("lookup/supervisors")]
+        //[AuthorizePermission(AuthPermissions.PmsPerformanceReviewView)]
+        [ProducesResponseType(typeof(Response<List<PmsCompetencyDto>>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetSupervisorsAsync()
+            => ApiResponse(await lookupService.GetSupervisorsAsync());
     }
 }

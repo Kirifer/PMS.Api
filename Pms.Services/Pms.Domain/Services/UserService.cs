@@ -30,7 +30,7 @@ namespace Pms.Domain.Services
             try
             {
                 var result = await _userRepository.GetAllAsync(u =>
-                string.IsNullOrEmpty(filter.Username) || u.Username == filter.Username);
+                string.IsNullOrEmpty(filter.Email) || u.Email == filter.Email);
 
                 var userDtos = Mapper.Map<List<PmsUserDto>>(result);
 
@@ -85,7 +85,7 @@ namespace Pms.Domain.Services
 
                 updateRef.FirstName = user.FirstName;
                 updateRef.LastName = user.LastName;
-                updateRef.Password = user.Password;
+                //updateRef.Email = user.Email;
 
                 var result = await _userRepository.UpdateAsync(updateRef);
 

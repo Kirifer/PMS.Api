@@ -10,9 +10,10 @@ namespace Pms.Models.Enums
         HumanResources,
         Engagement,
         Finance,
-        TechnicalSupport,
         Sales,
+        Creative,
         Marketing,
-        Management
+        Management,
+        TechnicalSupport,
     }
 }

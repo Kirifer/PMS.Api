@@ -65,6 +65,7 @@ builder.Services.AddPmsDatabase(secretsConfig);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.MapType<DateOnly>(() => new OpenApiSchema { Type = "string", Format = "date" });
     options.SwaggerDoc(GlobalConstant.DocumentVersion, new OpenApiInfo
     {
         Version = GlobalConstant.DocumentVersion,
