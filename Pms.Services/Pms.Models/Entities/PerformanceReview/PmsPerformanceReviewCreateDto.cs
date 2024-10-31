@@ -1,11 +1,13 @@
-﻿using Pms.Models.Enums;
+﻿using FluentValidation;
+
+using Pms.Models.Enums;
 
 namespace Pms.Models
 {
     public class PmsPerformanceReviewCreateDto
     {
-        public string Name { get; set; } = string.Empty;
-        public DepartmentType DepartmentType { get; set; }
+        public string? Name { get; set; }
+        public DepartmentType? DepartmentType { get; set; }
         public int? StartYear { get; set; }
         public int? EndYear { get; set; }
         public DateOnly? StartDate { get; set; }
@@ -35,5 +37,18 @@ namespace Pms.Models
         public Guid CompetencyId { get; set; }
         public int OrderNo { get; set; } = 0;
         public decimal? Weight { get; set; } = 0M;
+    }
+
+    public class PmsPerformanceReviewCreateDtoAbstractValidator : AbstractValidator<PmsPerformanceReviewCreateDto>
+    {
+        public PmsPerformanceReviewCreateDtoAbstractValidator()
+        {
+            RuleFor(x => x.Name).NotEmpty().NotNull().WithMessage("Name is required.");
+            RuleFor(x => x.DepartmentType).NotEmpty().NotNull().WithMessage("Department Type is required.");
+            RuleFor(x => x.StartYear).NotEmpty().NotNull().WithMessage("Start Year is required.");
+            RuleFor(x => x.EndYear).NotEmpty().NotNull().WithMessage("End Year is required.");
+            RuleFor(x => x.StartDate).NotEmpty().NotNull();
+            RuleFor(x => x.EndDate).NotEmpty().NotNull();
+        }
     }
 }

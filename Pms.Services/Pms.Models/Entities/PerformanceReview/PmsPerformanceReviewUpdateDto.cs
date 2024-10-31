@@ -1,4 +1,6 @@
-﻿using Pms.Models.Enums;
+﻿using FluentValidation;
+
+using Pms.Models.Enums;
 
 namespace Pms.Models
 {
@@ -6,8 +8,8 @@ namespace Pms.Models
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
-        public DepartmentType DepartmentType { get; set; }
+        public string? Name { get; set; }
+        public DepartmentType? DepartmentType { get; set; }
         public int? StartYear { get; set; }
         public int? EndYear { get; set; }
         public DateOnly? StartDate { get; set; }
@@ -42,5 +44,37 @@ namespace Pms.Models
         public Guid CompetencyId { get; set; }
         public int OrderNo { get; set; } = 0;
         public decimal? Weight { get; set; } = 0M;
+    }
+
+    public class PmsPerformanceReviewUpdateDtoAbstractValidator : AbstractValidator<PmsPerformanceReviewUpdateDto>
+    {
+        public PmsPerformanceReviewUpdateDtoAbstractValidator()
+        {
+            RuleFor(x => x.Id).NotEmpty().NotNull().WithMessage("Id is required.");
+            RuleFor(x => x.Name).NotEmpty().NotNull().WithMessage("Name is required.");
+            RuleFor(x => x.DepartmentType).NotEmpty().NotNull().WithMessage("Department Type is required.");
+            RuleFor(x => x.StartYear).NotEmpty().NotNull().WithMessage("Start Year is required.");
+            RuleFor(x => x.EndYear).NotEmpty().NotNull().WithMessage("End Year is required.");
+            RuleFor(x => x.StartDate).NotEmpty().NotNull();
+            RuleFor(x => x.EndDate).NotEmpty().NotNull();
+            RuleForEach(x => x.Goals).ChildRules(c => new PmsPerformanceReviewGoalUpdateDtoAbstractValidator());
+            RuleForEach(x => x.Competencies).ChildRules(c => new PmsPerformanceReviewGoalUpdateDtoAbstractValidator());
+        }
+    }
+
+    public class PmsPerformanceReviewGoalUpdateDtoAbstractValidator : AbstractValidator<PmsPerformanceReviewGoalUpdateDto>
+    {
+        public PmsPerformanceReviewGoalUpdateDtoAbstractValidator()
+        {
+            RuleFor(x => x.Id).NotEmpty().NotNull().WithMessage("Id is required.");
+        }
+    }
+
+    public class PmsPerformanceReviewCompetencyUpdateDtoAbstractValidator : AbstractValidator<PmsPerformanceReviewCompetencyUpdateDto>
+    {
+        public PmsPerformanceReviewCompetencyUpdateDtoAbstractValidator()
+        {
+            RuleFor(x => x.Id).NotEmpty().NotNull().WithMessage("Id is required.");
+        }
     }
 }
