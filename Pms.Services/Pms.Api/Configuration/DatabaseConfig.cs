@@ -1,5 +1,4 @@
 ﻿using Pms.Core.Authentication;
-using Pms.Core.Config;
 using Pms.Core.Database;
 using Pms.Core.Database.Abstraction;
 using Pms.Core.Database.Abstraction.Interface;
@@ -8,6 +7,7 @@ using Pms.Datalayer;
 using Pms.Datalayer.Implementation;
 using Pms.Datalayer.Interface;
 using Pms.DataLayer;
+using Pms.Domain.Services.Config;
 
 namespace Pms.Api.Configurations
 {

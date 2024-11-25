@@ -1,7 +1,9 @@
-﻿using Pms.Datalayer.Entities;
-using Pms.Models;
+﻿using AutoMapper;
 
-using AutoMapper;
+using Pms.Datalayer.Commands;
+using Pms.Datalayer.Entities;
+using Pms.Datalayer.Queries;
+using Pms.Models;
 
 namespace Pms.Api.Mappings
 {
@@ -9,9 +11,10 @@ namespace Pms.Api.Mappings
     {
         public UserMappingProfile()
         {
-            CreateMap<PmsUserCreateDto, User>(MemberList.Destination);
-            CreateMap<PmsUserUpdateDto, User>(MemberList.Destination);
+            CreateMap<PmsUserFilterDto, UserQueryFilter>(MemberList.Destination);
             CreateMap<User, PmsUserDto>(MemberList.Destination);
+            CreateMap<PmsUserCreateDto, UserCreateCmdModel>(MemberList.Destination);
+            CreateMap<PmsUserUpdateDto, UserUpdateCmdModel>(MemberList.Destination);
         }
     }
 }

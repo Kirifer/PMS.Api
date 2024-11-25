@@ -1,10 +1,11 @@
-﻿using Pms.ITSquarehub.Authentication.Models;
+﻿using Pms.Core.Filtering;
+using Pms.ITSquarehub.Authentication.Models;
 
 namespace Pms.ITSquarehub.Authentication.Service
 {
     public interface IITSAuthService
     {
-        Task<ITSAuthLoginDto?> LoginAsync(string username, string password);
-        Task<ITSAuthIdentityDto?> ConfirmIdentity(string authToken);
+        Task<Response<ITSAuthLoginDto>?> LoginAsync(string username, string password);
+        Task<Response<ITSAuthIdentityDto>?> ConfirmIdentity(string authToken);
     }
 }

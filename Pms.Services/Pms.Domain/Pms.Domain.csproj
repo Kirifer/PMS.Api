@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Pms.Integrations\Pms.ITSquarehub.Authentication\Pms.ITSquarehub.Authentication.csproj" />
     <ProjectReference Include="..\Pms.Datalayer\Pms.Datalayer.csproj" />
     <ProjectReference Include="..\Pms.Models\Pms.Models.csproj" />
   </ItemGroup>

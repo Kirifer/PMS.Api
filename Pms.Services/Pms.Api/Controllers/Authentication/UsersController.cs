@@ -1,10 +1,10 @@
 ﻿using System.Net;
 
+using Microsoft.AspNetCore.Mvc;
+
 using Pms.Core.Filtering;
 using Pms.Domain.Services.Interface;
 using Pms.Models;
-
-using Microsoft.AspNetCore.Mvc;
 
 namespace Pms.Api.Controllers
 {
@@ -36,7 +36,7 @@ namespace Pms.Api.Controllers
 
         [HttpPost]
         [Route("users")]
-        [ProducesResponseType(typeof(Response<PmsUserDto>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(Response<IdDto>), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> AddUserAsync([FromBody] PmsUserCreateDto user)
         {
             var response = await userService.CreateUserAsync(user);
@@ -45,7 +45,7 @@ namespace Pms.Api.Controllers
 
         [HttpPut]
         [Route("users/{id}")]
-        [ProducesResponseType(typeof(Response<PmsUserDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Response<IdDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateUserAsync(Guid id, [FromBody] PmsUserUpdateDto user)
         {
             var response = await userService.UpdateUserAsync(id, user);
@@ -54,7 +54,7 @@ namespace Pms.Api.Controllers
 
         [HttpDelete]
         [Route("users/{id}")]
-        [ProducesResponseType(typeof(Response<PmsUserDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Response<IdDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteUserAsync(Guid id)
         {
             var response = await userService.DeleteUserAsync(id);

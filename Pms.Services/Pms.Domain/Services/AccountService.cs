@@ -10,33 +10,33 @@ using Microsoft.IdentityModel.Tokens;
 
 using Pms.Core.Abstraction;
 using Pms.Core.Authentication;
-using Pms.Core.Config;
 using Pms.Core.Filtering;
 using Pms.Datalayer.Entities;
 using Pms.Datalayer.Interface;
+using Pms.Domain.Services.Config;
 using Pms.Domain.Services.Interface;
+using Pms.ITSquarehub.Authentication.Service;
 using Pms.Shared;
 
 namespace Pms.Domain.Services
 {
     public class AccountService : EntityService, IAccountService
     {
-        private readonly IUserRepository _userRepository;
         private readonly IUserContext _userContext;
         private readonly IMicroServiceConfig _microServiceConfig;
+        private readonly IITSAuthService _itsAuthService;
 
         public AccountService(
             IMapper mapper,
             ILogger<AccountService> logger,
             IUserContext userContext,
             IMicroServiceConfig microServiceConfig,
-
-            IUserRepository userRepository)
+            IITSAuthService itsAuthService)
             : base(mapper, logger)
         {
-            _userRepository = userRepository;
             _userContext = userContext;
             _microServiceConfig = microServiceConfig;
+            _itsAuthService = itsAuthService;
         }
 
         public async Task<Response<AuthUserIdentityDto>> GetIdentityAsync()
@@ -58,6 +58,28 @@ namespace Pms.Domain.Services
         {
             try
             {
+                if (loginRequest == null ||
+                    loginRequest.UserName == null ||
+                    loginRequest.Password == null)
+                {
+                    return Response<AuthLoginDto>.Error(new ErrorDto(
+                        Shared.Enums.ErrorCode.ValidationError, "Missing username and password."));
+                }
+
+                var response = await _itsAuthService.LoginAsync(loginRequest.UserName, loginRequest.Password);
+                if (response == null || !response.Succeeded)
+                {
+                    return Response<AuthLoginDto>.Error(new ErrorDto(
+                        Shared.Enums.ErrorCode.ValidationError, "Incorrect login."));
+                }
+
+                var identityResponse = await _itsAuthService.ConfirmIdentity(response.Data!.Token!);
+                if (identityResponse == null)
+                {
+                    return Response<AuthLoginDto>.Error(new ErrorDto(
+                        Shared.Enums.ErrorCode.ValidationError, "Could not obtain identity"));
+                }
+
                 return Response<AuthLoginDto>.Success(new AuthLoginDto());
             }
             catch (Exception ex)

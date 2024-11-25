@@ -2,9 +2,9 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-using Pms.Core.Config;
 using Pms.Core.Extensions;
 using Pms.Core.Filtering;
+using Pms.Domain.Services.Config;
 using Pms.Domain.Services.Interface;
 using Pms.Shared;
 using Pms.Shared.Extensions;

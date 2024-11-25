@@ -10,10 +10,10 @@ namespace Pms.Domain.Services.Interface
 
         Task<Response<PmsUserDto>> GetUserAsync(Guid id);
 
-        Task<Response<PmsUserDto>> CreateUserAsync(PmsUserCreateDto user);
+        Task<Response<IdDto>> CreateUserAsync(PmsUserCreateDto user);
 
-        Task<Response<PmsUserDto>> UpdateUserAsync(Guid id, PmsUserUpdateDto user);
+        Task<Response<IdDto>> UpdateUserAsync(Guid id, PmsUserUpdateDto user);
 
-        Task<Response<PmsUserDto>> DeleteUserAsync(Guid id);
+        Task<Response<IdDto>> DeleteUserAsync(Guid id);
     }
 }
