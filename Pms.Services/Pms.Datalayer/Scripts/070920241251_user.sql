@@ -5,10 +5,13 @@ begin
     id uuid not null,
     first_name text not null,
     last_name text not null,
+    position text,
     email text not null,
-    postion text,
+    password text,
     is_supervisor boolean not null,
     is_active boolean not null,
+    is_deleted boolean not null,
+    its_reference_id uuid,
    
     constraint pk_users primary key (id),
     constraint un_users_email unique(email)

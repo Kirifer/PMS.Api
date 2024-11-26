@@ -1,4 +1,6 @@
-﻿using Pms.Core.Database.Abstraction;
+﻿using Microsoft.EntityFrameworkCore;
+
+using Pms.Core.Database.Abstraction;
 using Pms.Core.Filtering;
 using Pms.Datalayer.Entities;
 using Pms.Models.Enums;
@@ -69,6 +71,8 @@ namespace Pms.Datalayer.Commands
 
             // Validate existing project codes
             _updateRef = context!.PerformanceReviews
+                .Include(p => p.Goals)
+                .Include(p => p.Competencies)
                 .FirstOrDefault(pr => pr.Id == _cmd.Id);
             if (_updateRef == null)
                 throw new DatabaseAccessException(
