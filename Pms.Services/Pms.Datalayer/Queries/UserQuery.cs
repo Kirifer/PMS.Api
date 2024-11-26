@@ -26,6 +26,8 @@ namespace Pms.Datalayer.Queries
                     c => c.Id.Equals(_criteria.Id))
                 .ConditionalWhere(() => !_criteria.Ids.IsNullOrEmpty(),
                     c => _criteria.Ids.Contains(c.Id))
+                .ConditionalWhere(() => !_criteria.ShowDeleted,
+                    c => !c.IsDeleted)
 
                 .ConditionalWhereContains(
                     (() => !string.IsNullOrWhiteSpace(_criteria.FirstName),
@@ -41,10 +43,13 @@ namespace Pms.Datalayer.Queries
                     Id = user.Id,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Email = user.Email,
                     Position = user.Position,
+                    Email = user.Email,
+                    Password = _criteria.ShowPassword ? user.Password : null,
                     IsSupervisor = user.IsSupervisor,
                     IsActive = user.IsActive,
+                    IsDeleted = _criteria.ShowDeleted ? user.IsDeleted : null,
+                    ItsReferenceId = user.ItsReferenceId,
                 });
         }
     }
@@ -56,5 +61,7 @@ namespace Pms.Datalayer.Queries
         public string? Email { get; set; }
         public bool? IsSupervisor {  get; set; }
         public bool? IsActive { get; set; }
+        public bool ShowPassword { get; set; } = false;
+        public bool ShowDeleted { get; set; } = false;
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 
 using AutoMapper;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
@@ -12,7 +13,7 @@ using Pms.Core.Abstraction;
 using Pms.Core.Authentication;
 using Pms.Core.Filtering;
 using Pms.Datalayer.Entities;
-using Pms.Datalayer.Interface;
+using Pms.Datalayer.Queries;
 using Pms.Domain.Services.Config;
 using Pms.Domain.Services.Interface;
 using Pms.ITSquarehub.Authentication.Service;
@@ -25,18 +26,21 @@ namespace Pms.Domain.Services
         private readonly IUserContext _userContext;
         private readonly IMicroServiceConfig _microServiceConfig;
         private readonly IITSAuthService _itsAuthService;
+        private readonly IUserQuery userQuery;
 
         public AccountService(
             IMapper mapper,
             ILogger<AccountService> logger,
             IUserContext userContext,
             IMicroServiceConfig microServiceConfig,
-            IITSAuthService itsAuthService)
+            IITSAuthService itsAuthService,
+            IUserQuery userQuery)
             : base(mapper, logger)
         {
             _userContext = userContext;
             _microServiceConfig = microServiceConfig;
             _itsAuthService = itsAuthService;
+            this.userQuery = userQuery;
         }
 
         public async Task<Response<AuthUserIdentityDto>> GetIdentityAsync()
@@ -58,29 +62,44 @@ namespace Pms.Domain.Services
         {
             try
             {
+                AuthLoginDto loginDto = new AuthLoginDto();
+
                 if (loginRequest == null ||
-                    loginRequest.UserName == null ||
+                    loginRequest.Email == null ||
                     loginRequest.Password == null)
                 {
                     return Response<AuthLoginDto>.Error(new ErrorDto(
-                        Shared.Enums.ErrorCode.ValidationError, "Missing username and password."));
+                        Shared.Enums.ErrorCode.ValidationError, "Missing email and password."));
                 }
 
-                var response = await _itsAuthService.LoginAsync(loginRequest.UserName, loginRequest.Password);
+                // Connect to ITS authentication
+                var response = await _itsAuthService.LoginAsync(loginRequest.Email, loginRequest.Password);
                 if (response == null || !response.Succeeded)
                 {
-                    return Response<AuthLoginDto>.Error(new ErrorDto(
-                        Shared.Enums.ErrorCode.ValidationError, "Incorrect login."));
+                    // Connect to internal database
+                    var result = await CheckLoginAsync(loginRequest.Email, loginRequest.Password);
+                    if (!result.Item1)
+                    {
+                        return Response<AuthLoginDto>.Error(new ErrorDto(
+                            Shared.Enums.ErrorCode.ValidationError, result.Item2));
+                    }
+                    loginDto.Succeeded = true;
                 }
-
-                var identityResponse = await _itsAuthService.ConfirmIdentity(response.Data!.Token!);
-                if (identityResponse == null)
+                else
                 {
-                    return Response<AuthLoginDto>.Error(new ErrorDto(
-                        Shared.Enums.ErrorCode.ValidationError, "Could not obtain identity"));
+                    var identityResponse = await _itsAuthService.ConfirmIdentity(response.Data!.Token!);
+                    if (identityResponse == null)
+                    {
+                        return Response<AuthLoginDto>.Error(new ErrorDto(
+                            Shared.Enums.ErrorCode.ValidationError, "Could not obtain identity"));
+                    }
+
+                    loginDto.Succeeded = true;
                 }
 
-                return Response<AuthLoginDto>.Success(new AuthLoginDto());
+                // Generate the token
+
+                return Response<AuthLoginDto>.Success(loginDto);
             }
             catch (Exception ex)
             {
@@ -120,6 +139,34 @@ namespace Pms.Domain.Services
             );
 
             return new JwtSecurityTokenHandler().WriteToken(generatedToken);
+        }
+
+        private async Task<(bool, string)> CheckLoginAsync(string email, string password)
+        {
+            var isSuccessfull = false;
+            try
+            {
+                var user = await userQuery.GetQuery(new()
+                {
+                    Email = email,
+                    ShowPassword = true
+                }).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    return (isSuccessfull, "Email is not registered.");
+                }
+
+                if (user.Password != password)
+                {
+                    return (isSuccessfull, "Incorrect password.");
+                }
+
+                return (isSuccessfull, "OK");
+            }
+            catch (Exception ex)
+            {
+                return (isSuccessfull, "Exception occured.");
+            }
         }
     }
 }
