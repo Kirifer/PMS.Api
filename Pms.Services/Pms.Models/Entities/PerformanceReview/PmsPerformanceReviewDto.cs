@@ -11,8 +11,8 @@ namespace Pms.Models
         public int? EndYear { get; set; }
         public DateOnly? StartDate { get; set; }
         public DateOnly? EndDate { get; set; }
-        public Guid? EmployeeId { get; set; }
-        public Guid? SupervisorId { get; set; }
+        public PmsUserDto? Employee { get; set; }
+        public PmsUserDto? Supervisor { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
 

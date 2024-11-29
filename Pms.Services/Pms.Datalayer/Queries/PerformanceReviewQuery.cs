@@ -35,12 +35,26 @@ namespace Pms.Datalayer.Queries
                     Id = pr.Id,
                     DepartmentType = pr.DepartmentType,
                     Name = pr.Name,
-                    EmployeeId = pr.EmployeeId,
+                    Employee = pr.EmployeeId.HasValue ? context.Users.Where(u => u.Id == pr.EmployeeId).Select(u => new PmsUserDto()
+                    {
+                        Id = u.Id,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Email = u.Email,
+                        Position = u.Position,
+                    }).FirstOrDefault() : null,
                     StartYear = pr.StartYear != null ? pr.StartYear.Value.Year : null,
                     EndYear = pr.EndYear != null ? pr.EndYear.Value.Year : null,
                     StartDate = pr.StartDate,
                     EndDate = pr.EndDate,
-                    SupervisorId = pr.SupervisorId,
+                    Supervisor = pr.SupervisorId.HasValue ? context.Users.Where(u => u.Id == pr.SupervisorId).Select(u => new PmsUserDto()
+                    {
+                        Id = u.Id,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Email = u.Email,
+                        Position = u.Position,
+                    }).FirstOrDefault() : null,
                     IsActive = pr.IsActive,
                     Competencies = pr.Competencies != null ? pr.Competencies.OrderBy(c => c.OrderNo).Select(c => new PmsPerformanceReviewCompetencyDto
                     {

@@ -15,7 +15,6 @@ namespace Pms.Api.Controllers
     public class UsersController(IUserService userService) : ControllerBase
     {
         private readonly IUserService userService = userService;
-
         [HttpGet]
         [Route("users")]
         [ProducesResponseType(typeof(Response<List<PmsUserDto>>), (int)HttpStatusCode.OK)]

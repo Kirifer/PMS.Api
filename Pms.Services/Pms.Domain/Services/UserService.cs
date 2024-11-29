@@ -22,7 +22,7 @@ namespace Pms.Domain.Services
         public async Task<Response<List<PmsUserDto>>> GetUsersAsync(PmsUserFilterDto filter)
         {
             try
-            { 
+            {
                 var queryFilter = Mapper.Map<UserQueryFilter>(filter);
                 var result = await userQuery
                     .GetQuery(queryFilter)
