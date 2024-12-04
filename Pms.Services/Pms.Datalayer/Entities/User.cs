@@ -13,7 +13,7 @@ namespace Pms.Datalayer.Entities
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public Guid? ItsReferenceId { get; set; }
-
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public string FullName => $"{FirstName} {LastName}";
     }
 }

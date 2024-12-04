@@ -16,6 +16,11 @@ namespace Pms.Datalayer.Commands
     {
         protected override async Task BuildCommandAsync()
         {
+            if (_cmd.DateCreated == default)
+            {
+                _cmd.DateCreated = DateTime.UtcNow;
+            }
+
             var createRef = new User()
             {
                 FirstName = _cmd.FirstName,
@@ -25,6 +30,7 @@ namespace Pms.Datalayer.Commands
                 Password = _cmd.Password,
                 IsSupervisor = _cmd.IsSupervisor,
                 ItsReferenceId = _cmd.ItsReferenceId,
+                DateCreated = _cmd.DateCreated,
                 IsActive = true
             };
 
@@ -56,6 +62,8 @@ namespace Pms.Datalayer.Commands
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string Position { get; set; } = string.Empty;
+
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public bool IsSupervisor { get; set; }
         public Guid? ItsReferenceId { get; set; }
     }

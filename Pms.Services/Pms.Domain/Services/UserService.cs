@@ -65,6 +65,7 @@ namespace Pms.Domain.Services
             try
             {
                 var cmdModel = Mapper.Map<UserCreateCmdModel>(payload);
+                cmdModel.DateCreated = DateTime.UtcNow;
                 await userCreateCmd.ExecuteAsync(cmdModel);
                 var result = userCreateCmd.GetResult();
 
@@ -83,6 +84,7 @@ namespace Pms.Domain.Services
             {
                 var cmdModel = Mapper.Map<UserUpdateCmdModel>(payload);
                 cmdModel.Id = id;
+
                 await userUpdateCmd.ExecuteAsync(cmdModel);
                 var result = userUpdateCmd.GetResult();
 
