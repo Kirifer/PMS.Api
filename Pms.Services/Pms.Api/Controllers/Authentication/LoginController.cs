@@ -26,15 +26,10 @@ namespace Pms.Api.Controllers
         [ProducesResponseType(typeof(Response<AuthLoginDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> LoginAsync([FromBody] AuthLoginRequestDto request)
         {
-            if (!ModelState.IsValid)
-            {
-
-                return BadRequest(ModelState);
-            }
-
             var uriHost = new Uri(Request.GetAbsoluteUrl());
             var response = await accountService.LoginAsync(request);
 
+            // Save the token to cookie as HTTP Only Mode
             if (response.Succeeded && !Equals(response.Data?.Token, null))
             {
                 var cookieOptions = new CookieOptions
@@ -50,6 +45,7 @@ namespace Pms.Api.Controllers
             }
 
             return StatusCode((int)response.Code, response);
+
         }
     }
 }

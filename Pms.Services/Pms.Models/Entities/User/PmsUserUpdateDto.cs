@@ -8,10 +8,6 @@
         public string Password { get; set; } = string.Empty;
         public string Position { get; set; } = string.Empty;
         public bool IsSupervisor { get; set; }
-
-        public DateTime DateCreated { get; } = DateTime.Now;
-
-
         public bool? IsActive { get; set; }
     }
 }

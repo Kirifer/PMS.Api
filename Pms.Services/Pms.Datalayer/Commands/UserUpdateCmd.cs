@@ -18,14 +18,12 @@ namespace Pms.Datalayer.Commands
 
         protected override async Task BuildCommandAsync()
         {
-
-            _updateRef.FirstName = _cmd.FirstName;
+            _updateRef!.FirstName = _cmd.FirstName;
             _updateRef.LastName = _cmd.LastName;
             _updateRef.Email = _cmd.Email;
             _updateRef.Password = _cmd.Password;
             _updateRef.Position = _cmd.Position;
             _updateRef.IsSupervisor = _cmd.IsSupervisor;
-            _updateRef!.DateCreated = _cmd.DateCreated.ToUniversalTime();
 
             if (_cmd.IsActive.HasValue)
                 _updateRef.IsActive = _cmd.IsActive.Value;
@@ -36,7 +34,6 @@ namespace Pms.Datalayer.Commands
 
             _result.Id = _updateRef.Id;
         }
-
 
         protected override bool ValidateModel()
         {
@@ -64,7 +61,6 @@ namespace Pms.Datalayer.Commands
 
     public class UserUpdateCmdModel
     {
-
         public Guid Id { get; set; }
 
         public string FirstName { get; set; } = string.Empty;
@@ -75,6 +71,5 @@ namespace Pms.Datalayer.Commands
         public bool IsSupervisor { get; set; }
         public bool? IsActive { get; set; }
         public Guid? ItsReferenceId { get; set; }
-        public DateTime DateCreated { get;  } = DateTime.UtcNow;
     }
 }
