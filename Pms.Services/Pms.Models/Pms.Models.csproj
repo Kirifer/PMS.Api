@@ -11,4 +11,8 @@
     <ProjectReference Include="..\..\Pms.Core.Api\Pms.Shared\Pms.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\EmployeeReview\" />
+  </ItemGroup>
+
 </Project>

@@ -75,6 +75,5 @@ begin
   create index if not exists ix_performance_review_competencies_performance_review_id
     on public.performance_review_competencies using btree
     (performance_review_id asc nulls last);
-
 end;
 $$

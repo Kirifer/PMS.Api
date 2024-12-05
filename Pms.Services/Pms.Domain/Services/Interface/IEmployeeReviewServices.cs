@@ -4,7 +4,7 @@ using Pms.Models;
 
 namespace Pms.Domain.Services.Interface
 {
-    public interface IPerformanceReviewEmployeeCommentService : IEntityService
+    public interface IEmployeeReviewServices : IEntityService
     {
         Task<Response<List<PmsPerformanceReviewDto>>> GetPerformanceReviewsAsync(PmsPerformanceReviewFilterDto filter);
         Task<Response<PmsPerformanceReviewDto>> GetPerformanceReviewAsync(Guid id);
