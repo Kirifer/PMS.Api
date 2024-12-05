@@ -81,6 +81,7 @@ namespace Pms.Datalayer.Queries
                         Measure3 = c.Measure3,
                         Measure4 = c.Measure4
                     }).ToList() : null,
+                    CreatedOn = pr.CreatedOn,
                 });
         }
     }

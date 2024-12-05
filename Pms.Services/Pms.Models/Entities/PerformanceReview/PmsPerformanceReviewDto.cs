@@ -15,6 +15,7 @@ namespace Pms.Models
         public PmsUserDto? Supervisor { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
+        public DateTimeOffset? CreatedOn { get; set; }
 
         public List<PmsPerformanceReviewGoalDto>? Goals { get; set; }
         public List<PmsPerformanceReviewCompetencyDto>? Competencies { get; set; }
