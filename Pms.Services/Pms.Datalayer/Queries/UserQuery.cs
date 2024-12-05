@@ -52,6 +52,7 @@ namespace Pms.Datalayer.Queries
                     IsActive = user.IsActive,
                     IsDeleted = _criteria.ShowDeleted ? user.IsDeleted : null,
                     ItsReferenceId = user.ItsReferenceId,
+                    CreatedOn = user.CreatedOn
                 });
         }
     }
