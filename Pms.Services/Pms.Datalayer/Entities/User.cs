@@ -2,7 +2,7 @@
 
 namespace Pms.Datalayer.Entities
 {
-    public class User : DbEntityIdBase
+    public class User : DbEntityFullBase
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
