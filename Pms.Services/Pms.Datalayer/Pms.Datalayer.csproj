@@ -15,6 +15,7 @@
     <EmbeddedResource Include="Scripts\070920241251_user.sql" />
     <EmbeddedResource Include="Scripts\100820241947_competencies.sql" />
     <EmbeddedResource Include="Scripts\100820241947_performance-review.sql" />
+	<EmbeddedResource Include="Scripts\user-performance-reviews.sql" />
   </ItemGroup>
 
 </Project>
