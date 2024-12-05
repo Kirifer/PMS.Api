@@ -18,5 +18,6 @@ namespace Pms.Models
 
         public List<PmsPerformanceReviewGoalDto>? Goals { get; set; }
         public List<PmsPerformanceReviewCompetencyDto>? Competencies { get; set; }
+        public List<PmsUserPerformanceReviewDto>? UserId { get; set; }
     }
 }

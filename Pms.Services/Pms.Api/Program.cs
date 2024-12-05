@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-using Pms.Api.Configurations;
+//using Pms.Api.Configurations;
 using Pms.Core.Abstraction;
 using Pms.Core.Api;
 using Pms.Core.ApiConfig;
@@ -61,7 +61,7 @@ builder.Services.AddCoreControllers();
 builder.Services.AddCoreCompression();
 builder.Services.AddCoreEntityServices<IEntityService>("Pms.Domain");
 builder.Services.AddCoreEntityServices<IDatalayerEntityService>("Pms.Datalayer");
-builder.Services.AddPmsDatabase(secretsConfig);
+//builder.Services.AddPmsDatabase(secretsConfig);
 builder.Services.AddITSAuth(() => secretsConfig.AuthenticationConfig!);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -128,7 +128,7 @@ app.UseCors(policy => policy
 .AllowAnyMethod()
 .AllowAnyOrigin());
 
-app.UseAtsDatabase();
+//app.UseAtsDatabase();
 app.UseAuthorization();
 app.UseRouting();
 app.MapControllers();
