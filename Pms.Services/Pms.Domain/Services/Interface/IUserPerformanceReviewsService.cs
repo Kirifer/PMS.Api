@@ -9,5 +9,6 @@ namespace Pms.Domain.Services.Interface
     {
         Task<Response<List<PmsPerformanceReviewDto>>> GetUserPerformanceReviewsAsync(PmsUserPerformanceReviewFilterDto filter);
         Task<Response<object>> GetUserPerformanceReviewsAsync(UserPerformanceReviewQueryFilter filter);
+        Task<Response<IdDto>> CreateUserPerformanceReviewAsync(PmsUserPerformanceReviewCreateDto payload);
     }
 }
