@@ -18,7 +18,7 @@ namespace Pms.Datalayer.Queries
         protected override IQueryable<PmsUserPerformanceReviewDto> BuildQuery()
         {
             var context = DbContext as PmsDbContext;
-            var query = context!.UsersPerformanceReviews.AsNoTracking()
+            var query = context!.UserPerformanceReviews.AsNoTracking()
                 .ConditionalWhere(() => _criteria.UserId.HasValue,
                     upr => upr.UserId == _criteria.UserId)
                 .ConditionalWhere(() => _criteria.PerformanceReviewId.HasValue,

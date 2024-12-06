@@ -14,9 +14,9 @@ namespace Pms.Api.Controllers
     [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.InternalServerError)]
     public class UserPerformanceReviewController : ApiControllerBase
     {
-        private readonly IUsersPerformanceReviewsService _userPerformanceReviewService;
+        private readonly IUserPerformanceReviewsService _userPerformanceReviewService;
 
-        public UserPerformanceReviewController(IUsersPerformanceReviewsService userPerformanceReviewService)
+        public UserPerformanceReviewController(IUserPerformanceReviewsService userPerformanceReviewService)
         {
             _userPerformanceReviewService = userPerformanceReviewService;
         }
