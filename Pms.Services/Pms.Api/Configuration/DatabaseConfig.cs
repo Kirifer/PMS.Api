@@ -22,7 +22,7 @@ namespace Pms.Api.Configurations
                     Port = 5432,
                     Database = "itsquarehub-pms",
                     User = "postgres",
-                    Password = "jerald123",
+                    Password = "gian",
                     Pooling = true
                 }
             );

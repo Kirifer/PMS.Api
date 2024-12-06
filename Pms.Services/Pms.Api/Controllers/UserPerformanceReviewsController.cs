@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pms.Core.Abstraction.Api;
 using Pms.Core.Filtering;
 using Pms.Datalayer.Queries;
+using Pms.Domain.Services;
 using Pms.Domain.Services.Interface;
 using Pms.Models;
 
@@ -12,24 +13,20 @@ namespace Pms.Api.Controllers
     [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.Forbidden)]
     [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.InternalServerError)]
-    public class UserPerformanceReviewController : ApiControllerBase
+
+    public class UserPerformanceReviewController(IUserPerformanceReviewsService
+        userPerformanceReviewsService) : ApiControllerBase
     {
-        private readonly IUserPerformanceReviewsService _userPerformanceReviewService;
-
-        public UserPerformanceReviewController(IUserPerformanceReviewsService userPerformanceReviewService)
-        {
-            _userPerformanceReviewService = userPerformanceReviewService;
-        }
-
         /// <summary>
         /// Gets the user performance reviews
         /// </summary>
         /// <returns>The list of user performance reviews.</returns>
+ 
         [HttpGet]
         [Route("users/{id}/performance-review")]
         [ProducesResponseType(typeof(Response<List<PmsUserPerformanceReviewDto>>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetUserPerformanceReviewsAsync([FromQuery] PmsUserPerformanceReviewFilterDto filter)
-            => ApiResponse(await _userPerformanceReviewService.GetUserPerformanceReviewsAsync(filter));
+            => ApiResponse(await userPerformanceReviewsService.GetUserPerformanceReviewsAsync(filter));
 
         /// <summary>
         /// Gets the user performance review detail
@@ -44,13 +41,13 @@ namespace Pms.Api.Controllers
         /// <summary>
         /// Creates the user performance review
         /// </summary>
-        /// <param name="payload">Request payload to create.</param>
+        /// <param name = "payload" > Request payload to create.</param>
         /// <returns>The entity id of newly created record.</returns>
-        //[HttpPost]
-        //[Route("user-performance-reviews")]
-        //[ProducesResponseType(typeof(Response<IdDto>), (int)HttpStatusCode.OK)]
-        //public async Task<IActionResult> CreateUserPerformanceReviewAsync([FromBody] PmsUserPerformanceReviewCreateDto payload)
-        //    => ApiResponse(await _userPerformanceReviewService.CreateUserPerformanceReviewAsync(payload));
+        [HttpPost]
+        [Route("users/{id}/performance-reviews")]
+        [ProducesResponseType(typeof(Response<IdDto>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> CreateUserPerformanceReviewAsync([FromBody] PmsUserPerformanceReviewCreateDto payload)
+            => ApiResponse(await userPerformanceReviewService.CreateUserPerformanceReviewAsync(payload));
 
         /// <summary>
         /// Updates the user performance review
