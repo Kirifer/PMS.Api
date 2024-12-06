@@ -3,7 +3,6 @@ using Pms.Datalayer.Commands;
 using Pms.Datalayer.Entities;
 using Pms.Datalayer.Queries;
 using Pms.Models;
-using Pms.Shared.Extensions;
 
 namespace Pms.Api.Mappings
 {
@@ -15,7 +14,12 @@ namespace Pms.Api.Mappings
             CreateMap<PmsUserPerformanceReviewFilterDto, UserPerformanceReviewQueryFilter>(MemberList.Destination);
 
             // Map entities to DTOs (example mapping for UserPerformanceReview)
-            CreateMap<PmsUserPerformanceReview, PmsUserPerformanceReviewDto>(MemberList.Destination);
+            CreateMap<UserPerformanceReview, PmsUserPerformanceReviewDto>(MemberList.Destination);
+
+            CreateMap<PmsUserPerformanceReviewCreateDto, UserPerformanceReviewCreateCmdModel>(MemberList.Destination)
+                .ForMember(dest => dest.EmployeeReviewDate,
+                 opt => opt.MapFrom(src => src.EmployeeReviewDate)); 
+
 
             // Add any additional mappings related to user performance reviews if needed
             // Example: mapping for other commands or additional DTOs related to performance reviews

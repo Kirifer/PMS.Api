@@ -47,7 +47,7 @@ namespace Pms.Api.Controllers
         [Route("users/{id}/performance-reviews")]
         [ProducesResponseType(typeof(Response<IdDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> CreateUserPerformanceReviewAsync([FromBody] PmsUserPerformanceReviewCreateDto payload)
-            => ApiResponse(await userPerformanceReviewService.CreateUserPerformanceReviewAsync(payload));
+            => ApiResponse(await userPerformanceReviewsService.CreateUserPerformanceReviewAsync(payload));
 
         /// <summary>
         /// Updates the user performance review

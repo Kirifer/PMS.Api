@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pms.Core.Abstraction;
 using Pms.Core.Filtering;
+using Pms.Datalayer.Commands;
 using Pms.Datalayer.Queries;
 using Pms.Domain.Services.Interface;
 using Pms.Models;
@@ -12,7 +13,8 @@ namespace Pms.Domain.Services
     public class UserPerformanceReviewsService(
         IMapper mapper,
         ILogger<UserPerformanceReviewsService> logger,
-        IUserPerformanceReviewQuery userPerformanceReviewQuery
+        IUserPerformanceReviewQuery userPerformanceReviewQuery,
+        IUserPerformanceReviewCreateCmd UserPerformanceReviewCreateCmd
     ) : EntityService(mapper, logger), IUserPerformanceReviewsService
     {
         public async Task<Response<List<PmsUserPerformanceReviewDto>>> GetUserPerformanceReviewsAsync(PmsUserPerformanceReviewFilterDto filter)
@@ -32,16 +34,24 @@ namespace Pms.Domain.Services
                 Logger.LogError(ex, "Error occurred while fetching user performance reviews");
                 return Response<List<PmsUserPerformanceReviewDto>>.Exception(ex);
             }
+
+        }
+        public async Task<Response<IdDto>> CreateUserPerformanceReviewAsync(PmsUserPerformanceReviewCreateDto payload)
+        {
+            try
+            {
+                var cmdModel = Mapper.Map<UserPerformanceReviewCreateCmdModel>(payload);
+                await UserPerformanceReviewCreateCmd.ExecuteAsync(cmdModel);
+                var result = UserPerformanceReviewCreateCmd.GetResult();
+
+                return Response<IdDto>.Success(result);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error occurred while creating competencies.");
+                return Response<IdDto>.Exception(ex);
+            }
         }
 
-        //public Task<Response<object>> GetUserPerformanceReviewsAsync(UserPerformanceReviewQueryFilter filter)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //Task<Response<List<PmsUserPerformanceReviewDto>>> IUserPerformanceReviewsService.GetUserPerformanceReviewsAsync(PmsUserPerformanceReviewFilterDto filter)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

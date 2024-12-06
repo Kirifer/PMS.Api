@@ -2,12 +2,14 @@
 
 namespace Pms.Datalayer.Entities
 {
-    public class PmsUserPerformanceReview : DbEntityIdBase
+    public class UserPerformanceReview : DbEntityIdBase
     {
         public Guid UserId { get; set; }
         public Guid PerformanceReviewId { get; set; }
         public string CalibrationComments { get; set; } = string.Empty;
-        public DateTime? EmployeeReviewDate { get; set; }
-        public DateTime? ManagerReviewDate { get; set; }
+        public DateOnly? EmployeeReviewDate { get; set; }
+        public DateOnly? ManagerReviewDate { get; set; }
+        public virtual List<UserPerformanceReviewGoals> Goals { get; set; } = [];
+        public virtual List<UserPerformanceReviewCompetencies> Competencies { get; set; } = [];
     }
 }

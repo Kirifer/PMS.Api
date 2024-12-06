@@ -65,7 +65,7 @@ begin
     on public.user_performance_review_goals using btree
     (performance_review_goal_id asc nulls last);
 
-     create table if not exists public.user_performance_review_competencies (
+  create table if not exists public.user_performance_review_competencies (
     id uuid not null,
     user_performance_review_id uuid not null,
     performance_review_competency_id uuid not null,
@@ -74,8 +74,8 @@ begin
     is_manager boolean not null default false,
     created_on date not null default current_date,
     updated_on date not null default current_date,
-    creator_id uuid not null,
-    updater_id uuid not null,
+    creator_id uuid,
+    updater_id uuid,
     
     constraint pk_user_performance_review_competencies primary key (id),
     constraint fk_user_performance_review_competencies_user_performance_review foreign key (user_performance_review_id)
