@@ -3,7 +3,7 @@ using Pms.Shared.Models;
 
 namespace Pms.Models
 {
-    public class PmsPerformanceReviewDto : EntityBaseDto
+    public class PmsPerformanceReviewDto : EntityFullBaseDto
     {
         public string Name { get; set; } = string.Empty;
         public DepartmentType DepartmentType { get; set; }
@@ -18,5 +18,6 @@ namespace Pms.Models
 
         public List<PmsPerformanceReviewGoalDto>? Goals { get; set; }
         public List<PmsPerformanceReviewCompetencyDto>? Competencies { get; set; }
+        public List<PmsUserPerformanceReviewDto>? UserId { get; set; }
     }
 }

@@ -28,6 +28,8 @@ namespace Pms.Datalayer.Queries
                     c => _criteria.Ids.Contains(c.Id))
                 .ConditionalWhere(() => !_criteria.ShowDeleted,
                     c => !c.IsDeleted)
+                .ConditionalWhere(() => _criteria.IsSupervisor.HasValue,
+                    c => c.IsSupervisor == _criteria.IsSupervisor)
 
                 .ConditionalWhereContains(
                     (() => !string.IsNullOrWhiteSpace(_criteria.FirstName),
@@ -50,6 +52,10 @@ namespace Pms.Datalayer.Queries
                     IsActive = user.IsActive,
                     IsDeleted = _criteria.ShowDeleted ? user.IsDeleted : null,
                     ItsReferenceId = user.ItsReferenceId,
+
+                    CreatedOn = user.CreatedOn,
+                    UpdatedOn = user.UpdatedOn
+
                 });
         }
     }
