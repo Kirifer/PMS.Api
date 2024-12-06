@@ -26,9 +26,9 @@ namespace Pms.Api.Controllers
         /// </summary>
         /// <returns>The list of user performance reviews.</returns>
         [HttpGet]
-        [Route("user-performance-reviews")]
+        [Route("users/{id}/performance-review")]
         [ProducesResponseType(typeof(Response<List<PmsUserPerformanceReviewDto>>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetUserPerformanceReviewsAsync([FromQuery] UserPerformanceReviewQueryFilter filter)
+        public async Task<IActionResult> GetUserPerformanceReviewsAsync([FromQuery] PmsUserPerformanceReviewFilterDto filter)
             => ApiResponse(await _userPerformanceReviewService.GetUserPerformanceReviewsAsync(filter));
 
         /// <summary>
