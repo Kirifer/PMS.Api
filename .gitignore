@@ -400,4 +400,3 @@ FodyWeavers.xsd
 # Ignore upload files
 Uploads
 /Pms.Services/Pms.Api/Configuration/DatabaseConfig.cs
-/Pms.Services/Pms.Api/appsettings.json
