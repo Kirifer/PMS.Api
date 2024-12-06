@@ -18,11 +18,11 @@ namespace Pms.Api.Configurations
             services.AddSingleton<IDbConfig, PmsDbConfig>(
                 config => new PmsDbConfig()
                 {
-                    Host = "localhost",
-                    Port = 5432,
+                    Host = envConfig.DatabaseConfig!.Host,
+                    Port = Convert.ToUInt16(envConfig.DatabaseConfig.Port),
                     Database = "itsquarehub-pms",
-                    User = "postgres",
-                    Password = "gian",
+                    User = envConfig.DatabaseConfig.User,
+                    Password = envConfig.DatabaseConfig.Password,
                     Pooling = true
                 }
             );

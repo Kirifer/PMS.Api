@@ -2,7 +2,7 @@
 
 namespace Pms.Datalayer.Entities
 {
-    public class UserPerformanceReview : DbEntityIdBase
+    public class UserPerformanceReview : DbEntityFullBase
     {
         public Guid UserId { get; set; }
         public Guid PerformanceReviewId { get; set; }

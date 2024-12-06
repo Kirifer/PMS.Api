@@ -9,7 +9,7 @@ begin
     employee_review_date date,
     manager_review_date date,
     created_on timestamp with time zone not null default now(),
-    updated_on date not null default current_date,
+    updated_on date default current_date,
     creator_id uuid,
     updater_id uuid,
     
@@ -41,7 +41,7 @@ begin
     comment text,
     is_manager boolean not null default false,
     created_on date not null default current_date,
-    updated_on date not null default current_date,
+    updated_on date default current_date,
     creator_id uuid,
     updater_id uuid,
     
@@ -73,7 +73,7 @@ begin
     comment text,
     is_manager boolean not null default false,
     created_on date not null default current_date,
-    updated_on date not null default current_date,
+    updated_on date default current_date,
     creator_id uuid,
     updater_id uuid,
     
