@@ -8,7 +8,7 @@ begin
     calibration_comments text,
     employee_review_date date,
     manager_review_date date,
-    created_on date not null default current_date,
+    created_on timestamp with time zone not null default now(),
     updated_on date not null default current_date,
     creator_id uuid,
     updater_id uuid,

@@ -18,6 +18,7 @@ namespace Pms.Datalayer.Queries
         protected override IQueryable<PmsUserPerformanceReviewDto> BuildQuery()
         {
             var context = DbContext as PmsDbContext;
+
             var query = context!.UserPerformanceReviews.AsNoTracking()
                 .ConditionalWhere(() => _criteria.UserId.HasValue,
                     upr => upr.UserId == _criteria.UserId)
@@ -31,16 +32,44 @@ namespace Pms.Datalayer.Queries
                 .ConditionalWhere(() => _criteria.ManagerReviewDate.HasValue,
                     upr => upr.ManagerReviewDate == _criteria.ManagerReviewDate);
 
-            return query
-                .Select(upr => new PmsUserPerformanceReviewDto()
+            var queryWithDetails = query
+                .Join(context.Users, upr => upr.UserId, user => user.Id, (upr, user) => new { upr, user })
+                .Join(context.PerformanceReviews, result => result.upr.PerformanceReviewId, pr => pr.Id,
+                    (result, pr) => new { result.upr, result.user, pr })
+                .Select(result => new PmsUserPerformanceReviewDto
                 {
-                    Id = upr.Id,
-                    UserId = upr.UserId,
-                    PerformanceReviewId = upr.PerformanceReviewId,
-                    CalibrationComments = upr.CalibrationComments,
-                    EmployeeReviewDate = upr.EmployeeReviewDate,
-                    ManagerReviewDate = upr.ManagerReviewDate
+                    Id = result.upr.Id,
+                    //UserId = result.upr.UserId,
+                    User = new PmsUserDto
+                    {
+                        Id = result.user.Id,
+                        FirstName = result.user.FirstName,
+                        LastName = result.user.LastName,
+                        Position = result.user.Position,
+                        Email = result.user.Email,
+                        IsSupervisor = result.user.IsSupervisor,
+                        IsActive = result.user.IsActive,
+                        IsDeleted = result.user.IsDeleted,
+                        CreatedOn = result.user.CreatedOn
+                    },
+                    //PerformanceReviewId = result.upr.PerformanceReviewId,
+                    PerformanceReview = new PmsPerformanceReviewDto
+                    {
+                        Id = result.pr.Id,
+                        Name = result.pr.Name,
+                        StartDate = result.pr.StartDate,
+                        EndDate = result.pr.EndDate,
+                        IsActive = result.pr.IsActive,
+                        DepartmentType = result.pr.DepartmentType,
+                        CreatedOn = result.pr.CreatedOn
+                    },
+                    CalibrationComments = result.upr.CalibrationComments,
+                    EmployeeReviewDate = result.upr.EmployeeReviewDate,
+                    ManagerReviewDate = result.upr.ManagerReviewDate,
+                    CreatedOn = result.upr.CreatedOn
                 });
+
+            return queryWithDetails;
         }
     }
 

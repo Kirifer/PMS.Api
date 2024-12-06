@@ -21,12 +21,17 @@ namespace Pms.Api.Controllers
         /// Gets the user performance reviews
         /// </summary>
         /// <returns>The list of user performance reviews.</returns>
- 
+
         [HttpGet]
         [Route("users/{id}/performance-review")]
         [ProducesResponseType(typeof(Response<List<PmsUserPerformanceReviewDto>>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetUserPerformanceReviewsAsync([FromQuery] PmsUserPerformanceReviewFilterDto filter)
-            => ApiResponse(await userPerformanceReviewsService.GetUserPerformanceReviewsAsync(filter));
+        public async Task<IActionResult> GetUserPerformanceReviewsAsync([FromRoute] Guid id, [FromQuery] PmsUserPerformanceReviewFilterDto filter)
+        {
+            filter.UserId = id;
+            var response = await userPerformanceReviewsService.GetUserPerformanceReviewsAsync(filter);
+            return ApiResponse(response);
+        }
+
 
         /// <summary>
         /// Gets the user performance review detail
@@ -43,11 +48,11 @@ namespace Pms.Api.Controllers
         /// </summary>
         /// <param name = "payload" > Request payload to create.</param>
         /// <returns>The entity id of newly created record.</returns>
-        [HttpPost]
-        [Route("users/{id}/performance-reviews")]
-        [ProducesResponseType(typeof(Response<IdDto>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CreateUserPerformanceReviewAsync([FromBody] PmsUserPerformanceReviewCreateDto payload)
-            => ApiResponse(await userPerformanceReviewService.CreateUserPerformanceReviewAsync(payload));
+        //[HttpPost]
+        //[Route("users/{id}/performance-reviews")]
+        //[ProducesResponseType(typeof(Response<IdDto>), (int)HttpStatusCode.OK)]
+        //public async Task<IActionResult> CreateUserPerformanceReviewAsync([FromBody] PmsUserPerformanceReviewCreateDto payload)
+        //    => ApiResponse(await userPerformanceReviewsService.CreateUserPerformanceReviewAsync(payload));
 
         /// <summary>
         /// Updates the user performance review
