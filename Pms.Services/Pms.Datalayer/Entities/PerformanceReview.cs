@@ -16,8 +16,6 @@ namespace Pms.Datalayer.Entities
         public bool IsActive { get; set; } = true;
         public bool IsDeleted { get; set; } = false;
 
-        //public DateTimeOffset? CreatedOn { get; set; }
-
         public virtual List<PerformanceReviewGoal> Goals { get; set; } = [];
         public virtual List<PerformanceReviewCompetency> Competencies { get; set; } = [];
     }

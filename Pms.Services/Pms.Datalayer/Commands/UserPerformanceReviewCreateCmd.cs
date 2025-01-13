@@ -1,7 +1,7 @@
 ﻿using Pms.Core.Database.Abstraction;
 using Pms.Core.Filtering;
 using Pms.Datalayer.Entities;
-using Pms.Models;
+using Pms.Models.Entities.UserPerformanceReview;
 using Pms.Models.Enums;
 using Pms.Shared.Enums;
 using Pms.Shared.Exceptions;

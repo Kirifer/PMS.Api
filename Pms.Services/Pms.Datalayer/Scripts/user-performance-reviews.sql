@@ -4,17 +4,20 @@ begin
   create table if not exists public.user_performance_reviews (
     id uuid not null,
     user_id uuid,
+    supervisor_id uuid,
     performance_review_id uuid not null,
     calibration_comments text,
-    employee_review_date date,
-    manager_review_date date,
+    employee_review_date datetime,
+    manager_review_date datetime,
     created_on timestamp with time zone not null default now(),
-    updated_on date default current_date,
+    updated_on timestamp with time zone default now(),
     creator_id uuid,
     updater_id uuid,
     
     constraint pk_user_performance_reviews primary key (id),
     constraint fk_user_performance_reviews_user foreign key (user_id)
+      references public.users (id) on delete cascade,
+    constraint fk_user_performance_reviews_supervisor foreign key (supervisor_id)
       references public.users (id) on delete cascade,
     constraint fk_user_performance_reviews_performance_review foreign key (performance_review_id)
       references public.performance_reviews (id) on delete cascade
@@ -40,8 +43,8 @@ begin
     value int,
     comment text,
     is_manager boolean not null default false,
-    created_on date not null default current_date,
-    updated_on date default current_date,
+    created_on datetime not null default current_date,
+    updated_on datetime default current_date,
     creator_id uuid,
     updater_id uuid,
     
@@ -72,8 +75,8 @@ begin
     value int,
     comment text,
     is_manager boolean not null default false,
-    created_on date not null default current_date,
-    updated_on date default current_date,
+    created_on datetime not null default current_date,
+    updated_on datetime default current_date,
     creator_id uuid,
     updater_id uuid,
     

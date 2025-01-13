@@ -396,7 +396,3 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-
-# Ignore upload files
-Uploads
-/Pms.Services/Pms.Api/Configuration/DatabaseConfig.cs

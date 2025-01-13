@@ -5,7 +5,7 @@ using Pms.Core.Filtering;
 using Pms.Datalayer.Queries;
 using Pms.Domain.Services;
 using Pms.Domain.Services.Interface;
-using Pms.Models;
+using Pms.Models.Entities.UserPerformanceReview;
 
 namespace Pms.Api.Controllers
 {
@@ -21,17 +21,15 @@ namespace Pms.Api.Controllers
         /// Gets the user performance reviews
         /// </summary>
         /// <returns>The list of user performance reviews.</returns>
- 
+
         [HttpGet]
         [Route("users/{id}/performance-review")]
         [ProducesResponseType(typeof(Response<List<PmsUserPerformanceReviewDto>>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetUserPerformanceReviewsAsync([FromRoute] Guid id, [FromQuery] PmsUserPerformanceReviewFilterDto filter)
+        public async Task<IActionResult> GetUserPerformanceReviewsAsync(Guid id)
         {
-            filter.UserId = id;
-            var response = await userPerformanceReviewsService.GetUserPerformanceReviewsAsync(filter);
+            var response = await userPerformanceReviewsService.GetUserPerformanceReviewsAsync(id);
             return ApiResponse(response);
         }
-
 
         /// <summary>
         /// Gets the user performance review detail

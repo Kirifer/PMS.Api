@@ -17,7 +17,7 @@ namespace Pms.Datalayer.Queries
         IPerformanceReviewQuery
     {
         protected override IQueryable<PmsPerformanceReviewDto> BuildQuery()
-        {
+        {   
             var context = DbContext as PmsDbContext;
             var query = context!.PerformanceReviews.AsNoTracking()
                 .Include(pr => pr.Goals)

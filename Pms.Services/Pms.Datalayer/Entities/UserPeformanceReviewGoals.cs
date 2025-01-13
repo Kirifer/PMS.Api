@@ -4,7 +4,7 @@ using Pms.Core.Database.Abstraction;
 
 namespace Pms.Datalayer.Entities
 {
-    public class UserPerformanceReviewGoals : DbEntityIdBase
+    public class UserPerformanceReviewGoals : DbEntityFullBase
     {
         public Guid UserPerformanceReviewId { get; set; }
         public virtual UserPerformanceReview? UserPerformanceReview { get; set; }

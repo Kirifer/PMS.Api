@@ -4,6 +4,7 @@ using Pms.Core.Database.Abstraction;
 using Pms.Core.Extensions;
 using Pms.Core.Filtering;
 using Pms.Models;
+using Pms.Models.Entities.UserPerformanceReview;
 using Pms.Shared.Extensions;
 
 namespace Pms.Datalayer.Queries
@@ -12,65 +13,90 @@ namespace Pms.Datalayer.Queries
     { }
 
     public class UserPerformanceReviewQuery(PmsDbContext dbContext) :
-        DbQueryBase<PmsUserPerformanceReviewDto, UserPerformanceReviewQueryFilter>(dbContext),
+        DbQueryBase<PmsUserPerformanceReviewDto,
+            UserPerformanceReviewQueryFilter>(dbContext),
         IUserPerformanceReviewQuery
     {
         protected override IQueryable<PmsUserPerformanceReviewDto> BuildQuery()
         {
             var context = DbContext as PmsDbContext;
-
             var query = context!.UserPerformanceReviews.AsNoTracking()
+                .Include(upr => upr.Goals)
+                .Include(upr => upr.Competencies)
                 .ConditionalWhere(() => _criteria.UserId.HasValue,
-                    upr => upr.UserId == _criteria.UserId)
-                .ConditionalWhere(() => _criteria.PerformanceReviewId.HasValue,
-                    upr => upr.PerformanceReviewId == _criteria.PerformanceReviewId)
-                .ConditionalWhereContains(
-                    (() => !string.IsNullOrWhiteSpace(_criteria.CalibrationComments),
-                        _criteria.CalibrationComments!, upr => upr.CalibrationComments))
-                .ConditionalWhere(() => _criteria.EmployeeReviewDate.HasValue,
-                    upr => upr.EmployeeReviewDate == _criteria.EmployeeReviewDate)
-                .ConditionalWhere(() => _criteria.ManagerReviewDate.HasValue,
-                    upr => upr.ManagerReviewDate == _criteria.ManagerReviewDate);
+                    upr => upr.UserId == _criteria.UserId);
 
-            var queryWithDetails = query
-                .Join(context.Users, upr => upr.UserId, user => user.Id, (upr, user) => new { upr, user })
-                .Join(context.PerformanceReviews, result => result.upr.PerformanceReviewId, pr => pr.Id,
-                    (result, pr) => new { result.upr, result.user, pr })
-                .Select(result => new PmsUserPerformanceReviewDto
+            return query
+                .Select(upr => new PmsUserPerformanceReviewDto
                 {
-                    Id = result.upr.Id,
-                    //UserId = result.upr.UserId,
-                    User = new PmsUserDto
+                    Id = upr.Id,
+                    User = upr.UserId.HasValue ? context.Users.Where(u => u.Id == upr.UserId).Select(u => new PmsUserDto()
                     {
-                        Id = result.user.Id,
-                        FirstName = result.user.FirstName,
-                        LastName = result.user.LastName,
-                        Position = result.user.Position,
-                        Email = result.user.Email,
-                        IsSupervisor = result.user.IsSupervisor,
-                        IsActive = result.user.IsActive,
-                        IsDeleted = result.user.IsDeleted,
-                        CreatedOn = result.user.CreatedOn
-                    },
-                    //PerformanceReviewId = result.upr.PerformanceReviewId,
-                    PerformanceReview = new PmsPerformanceReviewDto
-                    {
-                        Id = result.pr.Id,
-                        Name = result.pr.Name,
-                        StartDate = result.pr.StartDate,
-                        EndDate = result.pr.EndDate,
-                        IsActive = result.pr.IsActive,
-                        DepartmentType = result.pr.DepartmentType,
-                        CreatedOn = result.pr.CreatedOn
-                    },
-                    CalibrationComments = result.upr.CalibrationComments,
-                    EmployeeReviewDate = result.upr.EmployeeReviewDate,
-                    ManagerReviewDate = result.upr.ManagerReviewDate,
-                    CreatedOn = result.upr.CreatedOn
-                });
+                        Id = u.Id,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Email = u.Email,
+                        Position = u.Position,
+                    }).FirstOrDefault() : null,
 
-            return queryWithDetails;
+                    //GoalComments = upr.Goals != null ? upr.Goals.Select(g => new PmsUserPerformanceReviewGoalDto
+                    //{
+                    //    Id = g.Id,
+                    //    Value = g.Value,
+                    //    Comment = g.Comment,
+                    //    IsManager = g.IsManager
+                    //}).ToList() : null,
+
+                    //CompetencyComments = upr.Competencies != null ? upr.Competencies.Select(g => new PmsUserPerformanceReviewCompetencyDto
+                    //{
+                    //    Id = g.Id,
+                    //    Value = g.Value,
+                    //    Comment = g.Comment,
+                    //    IsManager = g.IsManager
+                    //}).ToList() : null,
+
+                    PerformanceReview = upr.PerformanceReviewId.HasValue ? context.PerformanceReviews.Where(pr => pr.Id == upr.PerformanceReviewId).Select(pr => new PmsPerformanceReviewDto()
+                    {
+                        Id = pr.Id,
+                        Name = pr.Name,
+                        StartDate = pr.StartDate,
+                        EndDate = pr.EndDate,
+                        IsActive = pr.IsActive,
+                        DepartmentType = pr.DepartmentType,
+                        Competencies = pr.Competencies != null ? pr.Competencies.OrderBy(c => c.OrderNo).Select(c => new PmsPerformanceReviewCompetencyDto
+                        {
+                            Id = c.Id,
+                            Competency = new PmsCompetencyDto
+                            {
+                                Id = c.CompetencyLevelId,
+                                Competency = c.Competency != null ? c.Competency.Competency : string.Empty,
+                                Level = c.Competency != null ? c.Competency.Level : string.Empty,
+                                Description = c.Competency != null ? c.Competency.Description : string.Empty,
+                            },
+                            OrderNo = c.OrderNo,
+                            Weight = c.Weight
+                        }).ToList() : null,
+                        Goals = pr.Goals != null ? pr.Goals.OrderBy(c => c.OrderNo).Select(c => new PmsPerformanceReviewGoalDto
+                        {
+                            Id = c.Id,
+                            OrderNo = c.OrderNo,
+                            Goals = c.Goals,
+                            Weight = c.Weight,
+                            Date = c.Date,
+                            Measure1 = c.Measure1,
+                            Measure2 = c.Measure2,
+                            Measure3 = c.Measure3,
+                            Measure4 = c.Measure4
+                        }).ToList() : null,
+                    }).FirstOrDefault() : null,
+
+                    CalibrationComments = upr.CalibrationComments,
+                    EmployeeReviewDate = upr.EmployeeReviewDate,
+                    ManagerReviewDate = upr.ManagerReviewDate,
+                    CreatedOn = upr.CreatedOn
+                });
         }
+
     }
 
     public class UserPerformanceReviewQueryFilter : FilterBase

@@ -2,7 +2,7 @@
 using Pms.Datalayer.Commands;
 using Pms.Datalayer.Entities;
 using Pms.Datalayer.Queries;
-using Pms.Models;
+using Pms.Models.Entities.UserPerformanceReview;
 
 namespace Pms.Api.Mappings
 {

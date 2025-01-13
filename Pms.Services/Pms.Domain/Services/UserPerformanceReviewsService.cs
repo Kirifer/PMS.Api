@@ -6,7 +6,7 @@ using Pms.Core.Filtering;
 using Pms.Datalayer.Commands;
 using Pms.Datalayer.Queries;
 using Pms.Domain.Services.Interface;
-using Pms.Models;
+using Pms.Models.Entities.UserPerformanceReview;
 
 namespace Pms.Domain.Services
 {
@@ -17,13 +17,12 @@ namespace Pms.Domain.Services
         IUserPerformanceReviewCreateCmd UserPerformanceReviewCreateCmd
     ) : EntityService(mapper, logger), IUserPerformanceReviewsService
     {
-        public async Task<Response<List<PmsUserPerformanceReviewDto>>> GetUserPerformanceReviewsAsync(PmsUserPerformanceReviewFilterDto filter)
+        public async Task<Response<List<PmsUserPerformanceReviewDto>>> GetUserPerformanceReviewsAsync(Guid id)
         {
             try
             {
-                var queryFilter = Mapper.Map<UserPerformanceReviewQueryFilter>(filter);
                 var result = await userPerformanceReviewQuery
-                    .GetQuery(queryFilter)
+                    .GetQuery(new UserPerformanceReviewQueryFilter { UserId = id })
                     .ToListAsync();
                 var totalCount = userPerformanceReviewQuery.GetTotalCount();
 
