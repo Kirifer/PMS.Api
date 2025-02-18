@@ -27,7 +27,7 @@ namespace Pms.Datalayer.Commands
                 CalibrationComments = _cmd.CalibrationComments,
                 EmployeeReviewDate = _cmd.EmployeeReviewDate,
                 ManagerReviewDate = _cmd.ManagerReviewDate,
-                Goals = _cmd.Goals.Select(g => new UserPerformanceReviewGoals
+                Goals = _cmd.Goals.Select(g => new UserPerformanceReviewGoal
                 {
             
                     PerformanceReviewGoalId = g.PerformanceReviewGoalId,
@@ -35,7 +35,7 @@ namespace Pms.Datalayer.Commands
                     Comment= g.Comment,
                     IsManager = g.IsManager,
                 }).ToList(),
-                Competencies = _cmd.Competencies.Select(c => new UserPerformanceReviewCompetencies
+                Competencies = _cmd.Competencies.Select(c => new UserPerformanceReviewCompetency
                 {
              
                     PerformanceReviewCompetencyId = c.PerformanceReviewCompetencyId,

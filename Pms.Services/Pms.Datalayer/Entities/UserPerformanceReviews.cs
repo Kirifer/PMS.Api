@@ -9,7 +9,7 @@ namespace Pms.Datalayer.Entities
         public string CalibrationComments { get; set; } = string.Empty;
         public DateOnly? EmployeeReviewDate { get; set; }
         public DateOnly? ManagerReviewDate { get; set; }
-        public virtual List<UserPerformanceReviewGoals> Goals { get; set; } = [];
-        public virtual List<UserPerformanceReviewCompetencies> Competencies { get; set; } = [];
+        public virtual List<UserPerformanceReviewGoal> Goals { get; set; } = [];
+        public virtual List<UserPerformanceReviewCompetency> Competencies { get; set; } = [];
     }
 }

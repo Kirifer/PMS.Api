@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\UsersPerformanceReviews.cs" />
+    <Compile Remove="Controllers\UsersPerformanceReviewsController.cs" />
   </ItemGroup>
 
   <ItemGroup>
