@@ -2,7 +2,7 @@
 
 namespace Pms.Models
 {
-    public class PmsUserDto : EntityBaseDto
+    public class PmsUserDto : EntityFullBaseDto
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }

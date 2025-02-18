@@ -12,6 +12,10 @@ begin
     is_active boolean not null,
     is_deleted boolean not null,
     its_reference_id uuid,
+    created_on timestamp with time zone not null default now(),
+    creator_id uuid,
+    updated_on timestamp with time zone,
+    updater_id uuid,
    
     constraint pk_users primary key (id),
     constraint un_users_email unique(email)

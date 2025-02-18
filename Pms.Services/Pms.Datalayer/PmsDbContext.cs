@@ -16,6 +16,10 @@ namespace Pms.Datalayer
         public DbSet<PerformanceReviewCompetency> PerformanceReviewCompetencies { get; set; }
         public DbSet<PerformanceReviewGoal> PerformanceReviewGoals { get; set; }
 
+        public DbSet<UserPerformanceReview> UserPerformanceReviews { get; set; }
+        public DbSet<UserPerformanceReviewGoal> UserPerformanceReviewGoals { get; set; }
+        public DbSet<UserPerformanceReviewCompetency> UserPerformanceReviewCompetencies { get; set; }
+
         public PmsDbContext(DbContextOptions<DbContextBase> options)
            : base(options)
         {

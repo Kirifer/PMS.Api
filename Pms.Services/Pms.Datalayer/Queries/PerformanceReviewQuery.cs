@@ -17,7 +17,7 @@ namespace Pms.Datalayer.Queries
         IPerformanceReviewQuery
     {
         protected override IQueryable<PmsPerformanceReviewDto> BuildQuery()
-        {
+        {   
             var context = DbContext as PmsDbContext;
             var query = context!.PerformanceReviews.AsNoTracking()
                 .Include(pr => pr.Goals)
@@ -81,6 +81,7 @@ namespace Pms.Datalayer.Queries
                         Measure3 = c.Measure3,
                         Measure4 = c.Measure4
                     }).ToList() : null,
+                    CreatedOn = pr.CreatedOn
                 });
         }
     }

@@ -14,7 +14,7 @@ namespace Pms.Core.Database.Abstraction
 
     public class DbEntityFullBase : DbEntityIdBase, IDbEntity
     {
-        public DateTimeOffset CreatedOn { get; set; }
+        public DateTimeOffset CreatedOn { get; set; } 
 
         public Guid? CreatorId { get; set; }
 

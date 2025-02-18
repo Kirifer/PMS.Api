@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\PerformanceReview\PmsUsersPerformanceReview.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Pms.Core.Api\Pms.Core\Pms.Core.csproj" />
     <ProjectReference Include="..\..\Pms.Core.Api\Pms.Shared\Pms.Shared.csproj" />
   </ItemGroup>
