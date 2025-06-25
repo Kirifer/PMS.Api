@@ -12,7 +12,7 @@ namespace Pms.Api.Controllers
         [Route("Home")]
         public IActionResult Index()
         {
-            return Ok("Pms Api 1.0");
+            return Ok($"Pms Api 1.0 - {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
         }
     }
 }
